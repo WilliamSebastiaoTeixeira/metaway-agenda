@@ -1,18 +1,38 @@
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    redirect: '/login',
+    component: () => import('src/layouts/LoginLayout.vue'),
+    children: [
+      {
+        path: '/login',
+        component: () => import('src/pages/LoginPage.vue'),
+        beforeEnter: (to, from, next) => {
+          const token = localStorage.getItem('token')
+          if (token) {
+            next('/home')
+          } else {
+            next()
+          }
+        },
+      },
+    ],
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
+  {
+    path: '/',
+    component: () => import('src/layouts/CheckLayout.vue'),
+    children: [
+      {
+        path: 'home',
+        component: () => import('src/pages/HomePage.vue'),
+      },
+    ],
+  },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('src/pages/404Page.vue'),
   },
-];
-
-export default routes;
+]
+export default routes
