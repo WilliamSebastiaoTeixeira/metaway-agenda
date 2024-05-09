@@ -1,5 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import axios, { AxiosInstance } from 'axios'
+import { Notify } from 'quasar'
+import { useAuthenticationStore } from 'src/stores/authentication'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -8,24 +10,84 @@ declare module '@vue/runtime-core' {
   }
 }
 
-// Be careful when using SSR for cross-request state pollution
-// due to creating a Singleton instance here;
-// If any client changes this (global) instance, it might be a
-// good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
-// for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' })
+const auth = useAuthenticationStore()
+
+const api = axios.create({
+  baseURL: 'https://demometaway.vps-kinghost.net:8485/',
+})
+
+api.defaults.timeout = 300000
+
+api.interceptors.request.use((config) => {
+  if (auth.token && config.headers) {
+    config.headers.Authorization = `Bearer ${auth.token}`
+  }
+  return config
+})
+
+api.interceptors.response.use(
+  (response) => {
+    return Promise.resolve(response)
+  },
+  async (error) => {
+    if (!error.response) {
+      Notify.create({
+        message: 'Nosso serviço está temporariamente indisponível.',
+        position: 'bottom',
+        type: 'negative',
+      })
+      return Promise.reject(error)
+    }
+
+    if (error.request.responseType === 'blob') {
+      const dataErrorParsed = JSON.parse(await error.response.data.text())
+      error.response.data = dataErrorParsed
+    }
+
+    switch (error.response.status) {
+      case 500:
+        Notify.create({
+          message: 'Um erro inesperado ocorreu. Tente novamente.',
+          position: 'bottom',
+          type: 'negative',
+        })
+        break
+      case 400:
+      case 404:
+        Notify.create({
+          message:
+            error.response.data?.message ||
+            'Um erro inesperado ocorreu. Tente novamente.',
+          position: 'bottom',
+          type: 'negative',
+        })
+        break
+      case 502:
+        Notify.create({
+          message: 'Nosso serviço está temporariamente indisponível.',
+          position: 'bottom',
+          type: 'negative',
+        })
+        break
+      case 401:
+      case 403:
+        Notify.create({
+          message:
+            error.response.data?.message ||
+            'Você não tem permissão para realizar a ação solicitada',
+          position: 'bottom',
+          type: 'negative',
+        })
+        break
+    }
+
+    return Promise.reject(error)
+  },
+)
 
 export default boot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
-
   app.config.globalProperties.$axios = axios
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
   app.config.globalProperties.$api = api
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
 })
 
 export { api }

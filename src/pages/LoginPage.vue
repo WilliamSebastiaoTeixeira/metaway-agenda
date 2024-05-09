@@ -17,6 +17,9 @@
           autocapitalize="off"
           autocomplete="username"
           bg-color="white"
+          :rules="[
+            () => !v$.username.required.$invalid || 'O usuário é obrigatório.',
+          ]"
           @keydown.enter.prevent="onLogin"
         />
         <q-input
@@ -30,9 +33,9 @@
           autocomplete="current-password"
           bg-color="white"
           :rules="[
-            () => !v$.senha.required.$invalid || 'A senha é obrigatória.',
+            () => !v$.password.required.$invalid || 'A senha é obrigatória.',
             () =>
-              !v$.senha.minLength.$invalid ||
+              !v$.password.minLength.$invalid ||
               'A senha deve ter no mínimo 8 caracteres.',
           ]"
           @keydown.enter.prevent="onLogin"
