@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { RoleUsuarioEnum } from 'src/api/usuario'
+import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
 import { ref } from 'vue'
 
 export interface UsuarioStoreInfo {

@@ -1,15 +1,38 @@
-export enum RoleUsuarioEnum {
-  ROLE_ADMIN = 'ROLE_ADMIN',
-  ROLE_USER = 'ROLE_USER',
-}
+import { api } from 'src/boot/axios'
 
-export interface Usuario {
-  cpf: string
-  dataNascimento: string
-  email: string
-  id: number
-  nome: string
-  password: string
-  telefone: string
-  username: string
+export default class UsuarioApi {
+  alterarSenha = {
+    post: async function (params: any) {
+      const { data } = await api.post('usuario/alterarSenha', params)
+      return data
+    },
+  }
+
+  atualizar = {
+    put: async function (params: any) {
+      const { data } = await api.put('usuario/atualizar', params)
+      return data
+    },
+  }
+
+  buscar = {
+    get: async function (id: number) {
+      const { data } = await api.get(`/api/usuario/buscar/${id}`)
+      return data
+    },
+  }
+
+  pesquisar = {
+    post: async function (params: any) {
+      const { data } = await api.post('usuario/pesquisar', params)
+      return data
+    },
+  }
+
+  salvar = {
+    post: async function (params: any) {
+      const { data } = await api.post('usuario/salvar', params)
+      return data
+    },
+  }
 }
