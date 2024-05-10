@@ -6,8 +6,8 @@
 import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 
-import WebLayout from './WebLayout.vue'
-import MobileLayout from './MobileLayout.vue'
+import WebLayout from './Web.vue'
+import MobileLayout from './Mobile.vue'
 
 const $q = useQuasar()
 

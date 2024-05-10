@@ -4,11 +4,11 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/login',
-    component: () => import('src/layouts/LoginLayout.vue'),
+    component: () => import('src/layouts/Login.vue'),
     children: [
       {
         path: '/login',
-        component: () => import('src/pages/LoginPage.vue'),
+        component: () => import('src/pages/Login.vue'),
         beforeEnter: (to, from, next) => {
           const accessToken = localStorage.getItem('accessToken')
           if (accessToken) {
@@ -22,17 +22,33 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    component: () => import('src/layouts/CheckLayout.vue'),
+    component: () => import('src/layouts/Check.vue'),
     children: [
       {
         path: 'home',
-        component: () => import('src/pages/HomePage.vue'),
+        component: () => import('src/pages/Home.vue'),
+      },
+      {
+        path: 'meu-cadastro',
+        component: () => import('src/pages/MeuCadastro.vue'),
+      },
+      {
+        path: 'usuarios',
+        component: () => import('src/pages/Usuarios.vue'),
+      },
+      {
+        path: 'pessoas',
+        component: () => import('src/pages/Pessoas.vue'),
+      },
+      {
+        path: 'contatos',
+        component: () => import('src/pages/Contatos.vue'),
       },
     ],
   },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('src/pages/404Page.vue'),
+    component: () => import('src/pages/404.vue'),
   },
 ]
 export default routes
