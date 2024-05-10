@@ -1,6 +1,6 @@
 # Quasar App (metaway-agenda)
 
-Controle de agenda pessoal]
+Controle de agenda pessoal
 
 ## Install the dependencies
 

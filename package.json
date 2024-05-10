@@ -2,7 +2,7 @@
   "name": "metaway-agenda",
   "version": "0.0.1",
   "description": "Controle de agenda pessoal",
-  "productName": "Quasar App",
+  "productName": "Agenda pessoal",
   "author": "William Sebastião Teixeira <williamsebastiaoteixeira@gmail.com>",
   "private": true,
   "scripts": {
