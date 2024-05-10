@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper.21dcd24c.js";import{l as r,aA as a}from"./index.c5c075b3.js";const o={};function t(c,n){return r(),a("div",null,"Meu cadastro")}var f=e(o,[["render",t]]);export{f as default};
