@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers'
 import axios, { AxiosInstance } from 'axios'
 import { Notify } from 'quasar'
-import { useAuthenticationStore } from 'src/stores/authentication'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -10,17 +10,17 @@ declare module '@vue/runtime-core' {
   }
 }
 
-const auth = useAuthenticationStore()
+const auth = useAuthorizationStore()
 
 const api = axios.create({
-  baseURL: 'https://demometaway.vps-kinghost.net:8485/',
+  baseURL: 'https://demometaway.vps-kinghost.net:8485/api/',
 })
 
 api.defaults.timeout = 300000
 
 api.interceptors.request.use((config) => {
-  if (auth.token && config.headers) {
-    config.headers.Authorization = `Bearer ${auth.token}`
+  if (auth.accessToken && auth.tokenType && config.headers) {
+    config.headers.Authorization = `${auth.tokenType} ${auth.accessToken}`
   }
   return config
 })

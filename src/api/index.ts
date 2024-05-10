@@ -1,5 +1,5 @@
-import AuthenticationApi from './authentication'
+import AutorizacaoApi from './autorizacao'
 
 export default {
-  auth: new AuthenticationApi(),
+  autorizacao: new AutorizacaoApi(),
 }

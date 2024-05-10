@@ -52,10 +52,10 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 
 import { useGeneralStore } from 'src/stores/general'
-import { useAuthenticationStore } from 'src/stores/authentication'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
 const router = useRouter()
-const auth = useAuthenticationStore()
+const auth = useAuthorizationStore()
 const generalStore = useGeneralStore()
 const { general } = storeToRefs(generalStore)
 

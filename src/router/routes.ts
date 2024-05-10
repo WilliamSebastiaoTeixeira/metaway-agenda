@@ -10,8 +10,8 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         component: () => import('src/pages/LoginPage.vue'),
         beforeEnter: (to, from, next) => {
-          const token = localStorage.getItem('token')
-          if (token) {
+          const accessToken = localStorage.getItem('accessToken')
+          if (accessToken) {
             next('/home')
           } else {
             next()

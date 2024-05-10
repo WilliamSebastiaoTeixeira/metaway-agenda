@@ -70,12 +70,12 @@ import { useRouter } from 'vue-router'
 
 import api from 'src/api'
 
-import { useAuthenticationStore } from 'src/stores/authentication'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
-import { LoginRequest } from 'src/api/authentication'
+import { LoginRequest } from 'src/api/autorizacao'
 
 const router = useRouter()
-const auth = useAuthenticationStore()
+const auth = useAuthorizationStore()
 
 const mostrarSenha = ref(false)
 
@@ -99,8 +99,15 @@ const v$ = useVuelidate(rules, form)
 
 async function onLogin() {
   try {
-    const data = await api.auth.login.post(form)
-    auth.setToken(data.accessToken)
+    const data = await api.autorizacao.login.post(form)
+
+    auth.setAcessToken(data.accessToken)
+    auth.setTokenType(data.tokenType)
+    auth.setUsuario({
+      id: data.id,
+      username: data.username,
+      tipos: data.tipos,
+    })
   } finally {
     router.push('/home')
   }
