@@ -1,7 +1,6 @@
 <template>
-  <q-list v-for="(item, index) in menu" :key="index" padding>
+  <q-list v-for="(item, index) in menuComputed" :key="index" padding>
     <q-expansion-item
-      v-if="!item.disabled"
       clickable
       :default-opened="checkRoute(item.children)"
       :hide-expand-icon="!item.children?.length"
@@ -43,14 +42,19 @@
   </q-list>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+
+import { useAuthorizationStore } from 'src/stores/authorization'
+
+import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
 
 interface Children {
   nome: string
   icon: string
   uri: string
   route: string
-  requiredPermission: string[]
+  requiredPermission: RoleUsuarioEnum[]
   disabled: boolean
 }
 
@@ -60,7 +64,7 @@ interface Father {
   uri: string
   route: string
   disabled: boolean
-  requiredPermission: string[]
+  requiredPermission: RoleUsuarioEnum[]
   children: Children[]
 }
 
@@ -71,18 +75,76 @@ interface Props {
 const props = defineProps<Props>()
 
 const route = useRoute()
+const auth = useAuthorizationStore()
 
 const menu: Father[] = [
   {
     nome: 'Home',
     icon: 'las la-home',
-    uri: 'DASHBOARD',
-    route: '/app',
+    uri: 'HOME',
+    route: '/home',
+    disabled: false,
+    requiredPermission: [],
+    children: [],
+  },
+  {
+    nome: 'Meu cadastro',
+    icon: 'las la-user',
+    uri: 'MEU_CADASTRO',
+    route: '/meu-cadastro',
+    disabled: false,
+    requiredPermission: [],
+    children: [],
+  },
+  {
+    nome: 'Usuarios',
+    icon: 'las la-users',
+    uri: 'USUARIOS',
+    route: '/usuarios',
+    disabled: false,
+    requiredPermission: [RoleUsuarioEnum.ROLE_ADMIN],
+    children: [],
+  },
+  {
+    nome: 'Pessoas',
+    icon: 'las la-user-circle',
+    uri: 'PESSOAS',
+    route: '/pessoas',
+    disabled: false,
+    requiredPermission: [],
+    children: [],
+  },
+  {
+    nome: 'Contatos',
+    icon: 'las la-phone',
+    uri: 'CONTATOS',
+    route: '/contatos',
     disabled: false,
     requiredPermission: [],
     children: [],
   },
 ]
+
+const menuComputed = computed(() =>
+  menu.map((father) => {
+    const disabled =
+      father.requiredPermission.length > 0 &&
+      !hasPermission(father.requiredPermission)
+    const children = father.children.map((child) => ({
+      ...child,
+      disabled:
+        child.requiredPermission.length > 0 &&
+        !hasPermission(child.requiredPermission),
+    }))
+    return { ...father, disabled, children }
+  }),
+)
+
+function hasPermission(permissions: RoleUsuarioEnum[]): boolean {
+  return permissions.some((permission) =>
+    auth.usuario?.tipos.includes(permission),
+  )
+}
 
 function classExpand(index: number, itemChildren: Children[]) {
   const marginTop = index === 1 ? 'q-mt-sm' : ''

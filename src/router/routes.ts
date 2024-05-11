@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,8 +11,8 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         component: () => import('src/pages/Login.vue'),
         beforeEnter: (to, from, next) => {
-          const accessToken = localStorage.getItem('accessToken')
-          if (accessToken) {
+          const auth = useAuthorizationStore()
+          if (auth.accessToken) {
             next('/home')
           } else {
             next()

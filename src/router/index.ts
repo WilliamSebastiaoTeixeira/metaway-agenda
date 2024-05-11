@@ -8,6 +8,9 @@ import {
 
 import routes from './routes'
 
+import { useAuthorizationStore } from 'src/stores/authorization'
+import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -35,10 +38,17 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const accessToken = localStorage.getItem('accessToken')
+    const auth = useAuthorizationStore()
 
-    if (!accessToken && to.fullPath !== '/login') {
+    if (!auth.accessToken && to.fullPath !== '/login') {
       next('/login')
+    }
+
+    if (
+      to.fullPath.includes('/usuarios') &&
+      !auth.usuario?.tipos.includes(RoleUsuarioEnum.ROLE_ADMIN)
+    ) {
+      return next(from.fullPath)
     }
 
     next()
