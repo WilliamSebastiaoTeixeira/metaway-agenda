@@ -1,1 +1,0 @@
-import{_ as o}from"./plugin-vue_export-helper.21dcd24c.js";import{l as t,aA as e}from"./index.3cf8a5e8.js";const r={};function a(n,c){return t(),e("div",null,"Contatos")}var f=o(r,[["render",a]]);export{f as default};
