@@ -13,8 +13,8 @@
           outlined
           placeholder="Usuario"
           dense
-          autocorrect="off"
-          autocapitalize="off"
+          autocorrect="on"
+          autocapitalize="on"
           autocomplete="username"
           bg-color="white"
           :rules="[
@@ -28,8 +28,8 @@
           placeholder="Senha"
           :type="mostrarSenha ? 'text' : 'password'"
           dense
-          autocorrect="off"
-          autocapitalize="off"
+          autocorrect="on"
+          autocapitalize="on"
           autocomplete="current-password"
           bg-color="white"
           :rules="[

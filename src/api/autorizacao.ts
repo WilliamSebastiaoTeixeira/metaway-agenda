@@ -17,7 +17,9 @@ export interface LoginResponse {
 export default class AutorizacaoApi {
   login = {
     post: async function (request: LoginRequest) {
-      const { data } = await api.post<LoginResponse>('auth/login', request)
+      const { data } = await api.post<LoginResponse>('auth/login', request, {
+        withCredentials: true,
+      })
       return data
     },
   }
