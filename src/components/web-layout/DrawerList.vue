@@ -42,31 +42,10 @@
   </q-list>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useMenuStore, type MenuChildren } from 'src/stores/menu'
 
-import { useAuthorizationStore } from 'src/stores/authorization'
-
-import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
-
-interface Children {
-  nome: string
-  icon: string
-  uri: string
-  route: string
-  requiredPermission: RoleUsuarioEnum[]
-  disabled: boolean
-}
-
-interface Father {
-  nome: string
-  icon: string
-  uri: string
-  route: string
-  disabled: boolean
-  requiredPermission: RoleUsuarioEnum[]
-  children: Children[]
-}
+import { storeToRefs } from 'pinia'
 
 interface Props {
   miniState: boolean
@@ -75,78 +54,11 @@ interface Props {
 const props = defineProps<Props>()
 
 const route = useRoute()
-const auth = useAuthorizationStore()
+const menuStore = useMenuStore()
 
-const menu: Father[] = [
-  {
-    nome: 'Home',
-    icon: 'las la-home',
-    uri: 'HOME',
-    route: '/home',
-    disabled: false,
-    requiredPermission: [],
-    children: [],
-  },
-  {
-    nome: 'Meu cadastro',
-    icon: 'las la-user',
-    uri: 'MEU_CADASTRO',
-    route: '/meu-cadastro',
-    disabled: false,
-    requiredPermission: [],
-    children: [],
-  },
-  {
-    nome: 'Usuarios',
-    icon: 'las la-users',
-    uri: 'USUARIOS',
-    route: '/usuarios',
-    disabled: false,
-    requiredPermission: [RoleUsuarioEnum.ROLE_ADMIN],
-    children: [],
-  },
-  {
-    nome: 'Pessoas',
-    icon: 'las la-user-circle',
-    uri: 'PESSOAS',
-    route: '/pessoas',
-    disabled: false,
-    requiredPermission: [],
-    children: [],
-  },
-  {
-    nome: 'Contatos',
-    icon: 'las la-phone',
-    uri: 'CONTATOS',
-    route: '/contatos',
-    disabled: false,
-    requiredPermission: [],
-    children: [],
-  },
-]
+const { menuComputed } = storeToRefs(menuStore)
 
-const menuComputed = computed(() =>
-  menu.map((father) => {
-    const disabled =
-      father.requiredPermission.length > 0 &&
-      !hasPermission(father.requiredPermission)
-    const children = father.children.map((child) => ({
-      ...child,
-      disabled:
-        child.requiredPermission.length > 0 &&
-        !hasPermission(child.requiredPermission),
-    }))
-    return { ...father, disabled, children }
-  }),
-)
-
-function hasPermission(permissions: RoleUsuarioEnum[]): boolean {
-  return permissions.some((permission) =>
-    auth.usuario?.tipos.includes(permission),
-  )
-}
-
-function classExpand(index: number, itemChildren: Children[]) {
+function classExpand(index: number, itemChildren: MenuChildren[]) {
   const marginTop = index === 1 ? 'q-mt-sm' : ''
   const cor =
     itemChildren.length && props.miniState && checkRoute(itemChildren)
@@ -155,16 +67,16 @@ function classExpand(index: number, itemChildren: Children[]) {
   return `${marginTop} ${cor}`
 }
 
-function activeClass(index: number, itemChildren: Children[]) {
+function activeClass(index: number, itemChildren: MenuChildren[]) {
   if (!props.miniState && checkRoute(itemChildren)) {
     return 'text-grey-1 bg-secondary'
   }
   return index !== 0 ? 'text-grey-1 bg-secondary' : ''
 }
 
-function checkRoute(itemChildren: Children[]) {
+function checkRoute(itemChildren: MenuChildren[]) {
   if (!itemChildren.length) return false
-  return itemChildren.some((child: Children) =>
+  return itemChildren.some((child: MenuChildren) =>
     route.fullPath.includes(child.route),
   )
 }

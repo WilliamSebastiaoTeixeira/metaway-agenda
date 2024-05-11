@@ -1,13 +1,13 @@
 <template>
-  <WebLayout v-if="!mobileOrSmallWidth" />
-  <MobileLayout v-if="mobileOrSmallWidth" />
+  <Web v-if="!mobileOrSmallWidth" />
+  <Mobile v-if="mobileOrSmallWidth" />
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 
-import WebLayout from './Web.vue'
-import MobileLayout from './Mobile.vue'
+import Web from './Web.vue'
+import Mobile from './Mobile.vue'
 
 const $q = useQuasar()
 
