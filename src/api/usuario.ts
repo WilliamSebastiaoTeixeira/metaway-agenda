@@ -1,4 +1,13 @@
 import { api } from 'src/boot/axios'
+import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+
+import type { ResponseWrapper } from 'src/types/responseWrapper'
+import type { Usuario } from 'src/types/usuario'
+
+export type UsuariosBuscarResponse = ResponseWrapper<{
+  usuario: Usuario
+  tipos: RoleUsuarioEnum[]
+}>
 
 export default class UsuarioApi {
   alterarSenha = {
@@ -17,7 +26,9 @@ export default class UsuarioApi {
 
   buscar = {
     get: async function (id: number) {
-      const { data } = await api.get(`/api/usuario/buscar/${id}`)
+      const { data } = await api.get<UsuariosBuscarResponse>(
+        `/api/usuario/buscar/${id}`,
+      )
       return data
     },
   }
