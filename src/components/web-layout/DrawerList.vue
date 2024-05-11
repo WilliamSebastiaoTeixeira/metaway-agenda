@@ -64,12 +64,11 @@ interface Father {
   children: Children[]
 }
 
-const props = defineProps({
-  miniState: {
-    type: Boolean,
-    require: true,
-  },
-})
+interface Props {
+  miniState: boolean
+}
+
+const props = defineProps<Props>()
 
 const route = useRoute()
 

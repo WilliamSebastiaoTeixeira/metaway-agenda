@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 
 export interface GeneralStore {
   fullWidth: boolean
-  miniState: boolean
+  flexibleDrawer: boolean
 }
 
 const generalStoreData = localStorage.getItem('generalStore')
@@ -11,11 +11,11 @@ const generalStoreData = localStorage.getItem('generalStore')
 export const useGeneralStore = defineStore('generalStore', () => {
   const defaultData = {
     fullWidth: false,
-    miniState: false,
+    flexibleDrawer: false,
   }
 
   const general = ref<GeneralStore>(
-    generalStoreData ? JSON.parse('generalStore') : defaultData,
+    generalStoreData ? JSON.parse(generalStoreData) : defaultData,
   )
 
   function clear() {

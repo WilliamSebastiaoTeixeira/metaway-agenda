@@ -20,7 +20,10 @@
       </q-item-section>
     </q-item>
 
-    <q-item clickable @click="() => (general.fullWidth = !general.fullWidth)">
+    <q-item
+      clickable
+      @click="() => (general.flexibleDrawer = !general.flexibleDrawer)"
+    >
       <q-item-section avatar>
         <q-avatar>
           <q-icon color="grey-6" name="apps" />
@@ -29,7 +32,7 @@
       <q-item-section>
         <div class="row">
           <span class="text-grey-6 text-bold">
-            {{ !general.miniState ? 'Drawer aberto' : 'Drawer flexível' }}
+            {{ !general.flexibleDrawer ? 'Drawer aberto' : 'Drawer flexível' }}
           </span>
         </div>
       </q-item-section>

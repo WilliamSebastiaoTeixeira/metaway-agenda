@@ -14,18 +14,15 @@ const accessTokenFromStorage: string | undefined =
 const tokenTypeFromStorage: string | undefined =
   localStorage.getItem('tokenType') ?? undefined
 
-const usuarioFromStorage: string | undefined = localStorage.getItem('usuario')
-  ? JSON.parse(localStorage.getItem('usuario') as string)
+const usuarioFromStoreString = localStorage.getItem('usuario')
+const usuarioFromStorage: UsuarioStoreInfo | undefined = usuarioFromStoreString
+  ? JSON.parse(usuarioFromStoreString)
   : undefined
 
 export const useAuthorizationStore = defineStore('authorization', () => {
   const accessToken = ref(accessTokenFromStorage)
   const tokenType = ref(tokenTypeFromStorage)
-  const usuario = ref(
-    usuarioFromStorage
-      ? (JSON.parse(usuarioFromStorage) as UsuarioStoreInfo)
-      : undefined,
-  )
+  const usuario = ref(usuarioFromStorage)
 
   function setAcessToken(incomingToken: string | undefined): void {
     if (incomingToken) localStorage.setItem('accessToken', incomingToken)
