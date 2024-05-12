@@ -1,5 +1,5 @@
 export interface Foto {
-  id: number
+  id: string
   name: string
   type: string
 }
