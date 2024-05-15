@@ -27,7 +27,7 @@ export default class UsuarioApi {
   buscar = {
     get: async function (id: number) {
       const { data } = await api.get<UsuariosBuscarResponse>(
-        `/api/usuario/buscar/${id}`,
+        `usuario/buscar/${id}`,
       )
       return data
     },
