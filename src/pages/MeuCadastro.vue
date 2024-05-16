@@ -1,5 +1,8 @@
 <template>
   <q-page padding class="container">
+    <div class="row justify-start q-mb-md">
+      <span class="text-h6 text-bold text-grey-9">Meu Cadastro</span>
+    </div>
     <UsuarioForm ref="usuarioFormRef" v-model="usuarioForm" />
     <PasswordForm ref="passwordFormRef" v-model="newPassword" />
     <div class="row justify-end">
