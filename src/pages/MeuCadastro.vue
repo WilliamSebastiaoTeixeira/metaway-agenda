@@ -1,8 +1,11 @@
 <template>
-  <q-page padding class="container q-gutter-y-md"> {{ form }} </q-page>
+  <q-page padding class="container q-gutter-y-md">
+    {{ formRef?.valid }}
+    <Form ref="formRef" v-model="form" />
+  </q-page>
 </template>
 <script setup lang="ts">
-import { reactive, onMounted, computed } from 'vue'
+import { reactive, onMounted, computed, ref } from 'vue'
 
 import { useAuthorizationStore } from 'src/stores/authorization'
 
@@ -10,7 +13,11 @@ import api from 'src/api'
 
 import type { Usuario } from 'src/types/usuario'
 
+import Form from 'src/components/meu-cadastro/form/Form.vue'
+
 const auth = useAuthorizationStore()
+
+const formRef = ref()
 
 const usuarioLogado = computed(() => auth.usuario)
 
