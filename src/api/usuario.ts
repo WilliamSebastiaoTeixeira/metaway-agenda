@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios'
-import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+import { RoleUsuarioEnum } from 'src/types/enum/roleUsuario'
 
 import type { ResponseWrapper } from 'src/types/responseWrapper'
 import type { Usuario } from 'src/types/usuario'

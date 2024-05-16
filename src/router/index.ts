@@ -9,7 +9,7 @@ import {
 import routes from './routes'
 
 import { useAuthorizationStore } from 'src/stores/authorization'
-import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+import { RoleUsuarioEnum } from 'src/types/enum/roleUsuario'
 
 /*
  * If not building with SSR mode, you can

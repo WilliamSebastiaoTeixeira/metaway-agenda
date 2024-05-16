@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios'
-import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+import { RoleUsuarioEnum } from 'src/types/enum/roleUsuario'
 
 export interface LoginRequest {
   password: string

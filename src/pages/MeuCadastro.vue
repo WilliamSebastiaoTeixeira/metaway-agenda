@@ -1,7 +1,9 @@
 <template>
-  <q-page padding class="container q-gutter-y-md">
-    {{ formRef?.valid }}
+  {{ passwordForm }}
+  {{ passwordFormRef }}
+  <q-page padding class="container">
     <Form ref="formRef" v-model="form" />
+    <PasswordForm ref="passwordFormRef" v-model="newPassword" />
   </q-page>
 </template>
 <script setup lang="ts">
@@ -12,12 +14,17 @@ import { useAuthorizationStore } from 'src/stores/authorization'
 import api from 'src/api'
 
 import type { Usuario } from 'src/types/usuario'
+import type { UsuarioAlterarSenhaRequest } from 'src/api/usuario'
 
 import Form from 'src/components/meu-cadastro/form/Form.vue'
+import PasswordForm from 'src/components/meu-cadastro/password-form/PasswordForm.vue'
 
 const auth = useAuthorizationStore()
 
 const formRef = ref()
+const passwordFormRef = ref()
+
+const newPassword = ref('')
 
 const usuarioLogado = computed(() => auth.usuario)
 
@@ -30,6 +37,14 @@ const form: Usuario = reactive({
   password: '',
   telefone: '',
   username: '',
+})
+
+const passwordForm = computed<UsuarioAlterarSenhaRequest>(() => {
+  return {
+    newPassword: newPassword.value,
+    password: form.password,
+    username: form.username,
+  }
 })
 
 async function setUsuario() {

@@ -3,7 +3,7 @@ import { computed } from 'vue'
 
 import { useAuthorizationStore } from 'src/stores/authorization'
 
-import { RoleUsuarioEnum } from 'src/types/enum/RoleUsuario'
+import { RoleUsuarioEnum } from 'src/types/enum/roleUsuario'
 
 export interface MenuChildren {
   nome: string
