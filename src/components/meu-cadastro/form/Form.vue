@@ -27,13 +27,44 @@
       dense
       required
     />
+
+    <q-input
+      v-model="modelValue.nome"
+      label="Nome"
+      outlined
+      dense
+      :rules="[() => !v$.nome.required.$invalid || 'O nome é obrigatório']"
+    />
+
+    <q-input
+      v-model="modelValue.username"
+      label="Username"
+      outlined
+      dense
+      :rules="[
+        () => !v$.username.required.$invalid || 'O username é obrigatório',
+      ]"
+    />
+
+    <q-input
+      v-model="modelValue.telefone"
+      v-maska
+      label="Telefone"
+      outlined
+      dense
+      data-maska="['(##) ####-####', '(##) #####-####']"
+      :rules="[
+        () => !v$.telefone.required.$invalid || 'O telefone é obrigatório',
+      ]"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { vMaska } from 'maska'
 
-//import useVuelidate from '@vuelidate/core'
-//import { required } from '@vuelidate/validators'
+import useVuelidate from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 import type { MeuCadastroForm } from 'src/components/meu-cadastro/form/form'
 import type { GenericInputCPF } from 'src/components/generic/input/cpf/CPF'
@@ -51,17 +82,26 @@ const cpfRef = ref<GenericInputCPF>()
 const emailRef = ref<GenericInputEmail>()
 const dataNascimentoRef = ref<GenericInputDate>()
 
-//const form = computed(() => ({}))
+const form = computed(() => ({
+  nome: modelValue.value?.nome,
+  username: modelValue.value?.username,
+  telefone: modelValue.value?.telefone,
+}))
 
-//const rules = computed(() => ({}))
+const rules = computed(() => ({
+  nome: { required },
+  username: { required },
+  telefone: { required },
+}))
 
-//const v$ = useVuelidate(rules, form)
+const v$ = useVuelidate(rules, form)
 
 const valid = computed(() => {
   return (
     !!cpfRef.value?.valid &&
     !!emailRef.value?.valid &&
-    !!dataNascimentoRef.value?.valid //&& !v$.value.$invalid
+    !!dataNascimentoRef.value?.valid &&
+    !v$.value.$invalid
   )
 })
 
