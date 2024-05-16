@@ -68,7 +68,17 @@ async function setUsuario() {
 
 async function onSave() {
   try {
-    await api.usuario.atualizar.put(usuarioForm)
+    const data = await api.usuario.atualizar.put(usuarioForm)
+
+    Object.assign(usuarioForm, data.object)
+
+    if (usuarioLogado.value) {
+      auth.setUsuario({
+        ...usuarioLogado.value,
+        username: usuarioForm.username,
+      })
+    }
+
     if (passwordForm.value.newPassword) {
       await api.usuario.alterarSenha.post(passwordForm.value)
     }
