@@ -1,5 +1,5 @@
 import { Ref } from 'vue'
 
-export interface MeuCadastroForm {
+export interface UsuarioForm {
   valid: Ref<boolean>
 }

@@ -1,8 +1,6 @@
 <template>
-  {{ passwordForm }}
-  {{ passwordFormRef }}
   <q-page padding class="container">
-    <Form ref="formRef" v-model="form" />
+    <UsuarioForm ref="usuarioFormRef" v-model="usuarioForm" />
     <PasswordForm ref="passwordFormRef" v-model="newPassword" />
   </q-page>
 </template>
@@ -16,19 +14,19 @@ import api from 'src/api'
 import type { Usuario } from 'src/types/usuario'
 import type { UsuarioAlterarSenhaRequest } from 'src/api/usuario'
 
-import Form from 'src/components/meu-cadastro/form/Form.vue'
-import PasswordForm from 'src/components/meu-cadastro/password-form/PasswordForm.vue'
+import UsuarioForm from 'src/components/usuario-form/UsuarioForm.vue'
+import PasswordForm from 'src/components/password-form/PasswordForm.vue'
 
 const auth = useAuthorizationStore()
 
-const formRef = ref()
+const usuarioFormRef = ref()
 const passwordFormRef = ref()
 
 const newPassword = ref('')
 
 const usuarioLogado = computed(() => auth.usuario)
 
-const form: Usuario = reactive({
+const usuarioForm: Usuario = reactive({
   cpf: '',
   dataNascimento: '',
   email: '',
@@ -42,15 +40,15 @@ const form: Usuario = reactive({
 const passwordForm = computed<UsuarioAlterarSenhaRequest>(() => {
   return {
     newPassword: newPassword.value,
-    password: form.password,
-    username: form.username,
+    password: usuarioForm.password,
+    username: usuarioForm.username,
   }
 })
 
 async function setUsuario() {
   if (!usuarioLogado.value) return
   const { object } = await api.usuario.buscar.get(usuarioLogado.value.id)
-  Object.assign(form, object.usuario)
+  Object.assign(usuarioForm, object.usuario)
 }
 
 onMounted(setUsuario)

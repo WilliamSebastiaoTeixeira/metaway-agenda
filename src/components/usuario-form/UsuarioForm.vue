@@ -66,7 +66,7 @@ import { vMaska } from 'maska'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
-import type { MeuCadastroForm } from 'src/components/meu-cadastro/form/form'
+import type { UsuarioForm } from 'src/components/usuario-form/usuarioForm'
 import type { GenericInputCPF } from 'src/components/generic/input/cpf/CPF'
 import type { GenericInputEmail } from 'src/components/generic/input/email/email'
 import type { GenericInputDate } from 'src/components/generic/input/date/date'
@@ -105,7 +105,7 @@ const valid = computed(() => {
   )
 })
 
-defineExpose<MeuCadastroForm>({
+defineExpose<UsuarioForm>({
   valid,
 })
 </script>
