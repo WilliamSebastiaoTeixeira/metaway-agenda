@@ -63,7 +63,7 @@ import { requiredIf, minLength, sameAs } from '@vuelidate/validators'
 
 import type { MeuCadastroPasswordForm } from './passwordForm'
 
-const modelValue = defineModel<string>('')
+const modelValue = defineModel<string>()
 
 const isPwd = ref(true)
 const isConfirmationPwd = ref(true)

@@ -32,7 +32,7 @@ api.interceptors.response.use(
   async (error) => {
     if (!error.response) {
       Notify.create({
-        message: 'Nosso serviço está temporariamente indisponível.',
+        message: 'Nosso serviço está temporariamente indisponível',
         position: 'bottom',
         type: 'negative',
       })
@@ -47,7 +47,7 @@ api.interceptors.response.use(
     switch (error.response.status) {
       case 500:
         Notify.create({
-          message: 'Um erro inesperado ocorreu. Tente novamente.',
+          message: 'Um erro inesperado ocorreu. Tente novamente',
           position: 'bottom',
           type: 'negative',
         })
@@ -57,14 +57,14 @@ api.interceptors.response.use(
         Notify.create({
           message:
             error.response.data?.message ||
-            'Um erro inesperado ocorreu. Tente novamente.',
+            'Um erro inesperado ocorreu. Tente novamente',
           position: 'bottom',
           type: 'negative',
         })
         break
       case 502:
         Notify.create({
-          message: 'Nosso serviço está temporariamente indisponível.',
+          message: 'Nosso serviço está temporariamente indisponível',
           position: 'bottom',
           type: 'negative',
         })
