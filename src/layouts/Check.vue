@@ -3,15 +3,12 @@
   <Mobile v-if="mobileOrSmallWidth" />
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useQuasar } from 'quasar'
+import { useGeneralStore } from 'src/stores/general'
+import { storeToRefs } from 'pinia'
 
 import Web from './Web.vue'
 import Mobile from './Mobile.vue'
 
-const $q = useQuasar()
-
-const mobileOrSmallWidth = computed(() => {
-  return $q.screen.width < 585 || $q.platform.is.mobile
-})
+const generalStore = useGeneralStore()
+const { mobileOrSmallWidth } = storeToRefs(generalStore)
 </script>

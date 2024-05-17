@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { useQuasar } from 'quasar'
 
 export interface GeneralStore {
   fullWidth: boolean
@@ -9,10 +10,16 @@ export interface GeneralStore {
 const generalStoreData = localStorage.getItem('generalStore')
 
 export const useGeneralStore = defineStore('generalStore', () => {
+  const $q = useQuasar()
+
   const defaultData = {
     fullWidth: false,
     flexibleDrawer: false,
   }
+
+  const mobileOrSmallWidth = computed(() => {
+    return $q.screen.width < 585 || $q.platform.is.mobile
+  })
 
   const general = ref<GeneralStore>(
     generalStoreData ? JSON.parse(generalStoreData) : defaultData,
@@ -33,6 +40,7 @@ export const useGeneralStore = defineStore('generalStore', () => {
 
   return {
     general,
+    mobileOrSmallWidth,
     clear,
     set,
   }

@@ -1,5 +1,9 @@
 <template>
-  <q-dialog ref="dialogRef" @hide="onDialogHide">
+  <q-dialog
+    ref="dialogRef"
+    :maximized="mobileOrSmallWidth"
+    @hide="onDialogHide"
+  >
     <q-card style="width: 100%; max-width: 600px">
       <div>
         <q-card-section class="q-px-lg">
@@ -90,6 +94,8 @@ import { ref, onMounted, reactive, computed } from 'vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, minLength } from '@vuelidate/validators'
+import { useGeneralStore } from 'src/stores/general'
+import { storeToRefs } from 'pinia'
 
 import api from 'src/api'
 
@@ -113,6 +119,9 @@ const optionsTipos = [
   { label: 'Administrador', value: RoleUsuarioEnum.ROLE_ADMIN },
   { label: 'Usuario', value: RoleUsuarioEnum.ROLE_USER },
 ]
+
+const generalStore = useGeneralStore()
+const { mobileOrSmallWidth } = storeToRefs(generalStore)
 
 const password = ref('')
 const isPassword = ref(true)

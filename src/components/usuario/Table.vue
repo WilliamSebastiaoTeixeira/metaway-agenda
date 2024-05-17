@@ -3,13 +3,22 @@
     <q-table
       flat
       bordered
-      :hide-bottom="!!modelValue?.length"
       row-key="id"
+      :grid="mobileOrSmallWidth"
+      :hide-bottom="!!modelValue?.length"
       :loading="tableProps.loading"
       :rows="modelValue"
       :columns="columns"
       :rows-per-page-options="[0]"
     >
+      <template #header="props">
+        <q-tr :props="props">
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+
       <template #body-cell-editar="props">
         <q-td :props="props">
           <q-btn
@@ -21,6 +30,40 @@
             @click="emit('editar', props.row)"
           />
         </q-td>
+      </template>
+
+      <template #item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+        >
+          <q-card>
+            <q-list dense>
+              <q-item v-for="col in props.cols" :key="col.name">
+                <q-item-section>
+                  <q-item-label> {{ col.label }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn
+                    v-if="col.name === 'editar'"
+                    unelevated
+                    round
+                    flat
+                    color="blue-8"
+                    icon="las la-edit"
+                    @click="emit('editar', props.row)"
+                  />
+                  <q-item-label
+                    v-else
+                    caption
+                    :class="col.classes ? col.classes : ''"
+                  >
+                    {{ col.value }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
       </template>
 
       <template #no-data>
@@ -41,6 +84,8 @@
 </template>
 <script setup lang="ts">
 import { type QTableProps } from 'quasar'
+import { useGeneralStore } from 'src/stores/general'
+import { storeToRefs } from 'pinia'
 
 import type { Usuario } from 'src/types/usuario'
 
@@ -57,6 +102,9 @@ const emit = defineEmits<{
 }>()
 
 const modelValue = defineModel<Usuario[]>()
+
+const generalStore = useGeneralStore()
+const { mobileOrSmallWidth } = storeToRefs(generalStore)
 
 const columns: QTableProps['columns'] = [
   {
