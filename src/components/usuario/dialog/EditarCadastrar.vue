@@ -35,11 +35,33 @@
             />
           </div>
 
-          <PasswordForm
-            ref="passwordFormRef"
-            v-model="newPassword"
-            :required="!isEditing"
-          />
+          <div v-if="!isEditing" class="column">
+            <q-input
+              v-model="usuarioForm.password"
+              label="Senha"
+              :type="isPassword ? 'password' : 'text'"
+              lazy-rules
+              dense
+              outlined
+              :rules="[
+                () => !v$.password.required.$invalid || 'Campo obrigatório',
+                () =>
+                  !v$.password.minLength.$invalid ||
+                  'Tamanho mínimo de 8 caracteres',
+                () =>
+                  !v$.password.lettersAndNumbers.$invalid ||
+                  'Precisa conter letras e números',
+              ]"
+            >
+              <template #append>
+                <q-icon
+                  :name="isPassword ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPassword = !isPassword"
+                />
+              </template>
+            </q-input>
+          </div>
         </q-card>
       </div>
 
@@ -66,17 +88,17 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive, computed } from 'vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
+import useVuelidate from '@vuelidate/core'
+import { requiredIf, minLength } from '@vuelidate/validators'
 
 import api from 'src/api'
 
 import type { Usuario } from 'src/types/usuario'
-import type { UsuarioAlterarSenhaRequest } from 'src/api/usuario'
 import type { UsuarioSalvarResquest } from 'src/api/usuario'
 
 import { RoleUsuarioEnum } from 'src/types/enum/roleUsuario'
 
 import UsuarioForm from 'src/components/usuario/form/usuario/Index.vue'
-import PasswordForm from 'src/components/usuario/form/password/Index.vue'
 
 interface Props {
   usuario?: Usuario
@@ -92,11 +114,10 @@ const optionsTipos = [
   { label: 'Usuario', value: RoleUsuarioEnum.ROLE_USER },
 ]
 
+const isPassword = ref(true)
 const usuarioFormRef = ref()
-const passwordFormRef = ref()
 
 const loading = ref(false)
-const newPassword = ref()
 const tipos = ref<RoleUsuarioEnum[]>([RoleUsuarioEnum.ROLE_USER])
 
 const usuarioForm: Usuario = reactive({
@@ -110,55 +131,48 @@ const usuarioForm: Usuario = reactive({
   username: '',
 })
 
-const passwordForm = computed<UsuarioAlterarSenhaRequest>(() => {
-  return {
-    newPassword: newPassword.value,
-    password: usuarioForm.password,
-    username: usuarioForm.username,
-  }
-})
+const isEditing = computed(() => !!props.usuario)
 
 const tiposValid = computed(() => !!tipos.value.length)
 
+const form = computed(() => ({
+  password: usuarioForm.password,
+}))
+
+const rules = computed(() => ({
+  password: {
+    required: requiredIf(() => !isEditing.value),
+    minLength: minLength(8),
+    lettersAndNumbers: () => checkPasswordStrength(usuarioForm.password),
+  },
+}))
+
+const v$ = useVuelidate(rules, form)
+
 const valid = computed(() => {
-  return (
-    !!usuarioFormRef.value?.valid &&
-    !!passwordFormRef.value?.valid &&
-    tiposValid.value
-  )
+  return !!usuarioFormRef.value?.valid && tiposValid.value && !v$.value.$invalid
 })
 
-const isEditing = computed(() => !!props.usuario)
+function checkPasswordStrength(password: string | undefined) {
+  if (!password) return true
+  const regex = /(?=.*[0-9])(?=.*[A-Za-z])/
+  return regex.test(password)
+}
 
 async function save() {
   try {
     loading.value = true
-    if (isEditing.value) {
-      const salvarResquest = {
-        tipos: tipos.value,
-        usuario: usuarioForm,
-      }
 
-      await api.usuario.salvar.post(salvarResquest)
-
-      if (passwordForm.value.newPassword) {
-        await api.usuario.alterarSenha.post(passwordForm.value)
-      }
-    } else {
-      const salvarResquest: UsuarioSalvarResquest = {
-        tipos: tipos.value,
-        usuario: {
-          ...usuarioForm,
-          password: newPassword.value,
-        },
-      }
-
-      delete salvarResquest.usuario.id
-
-      await api.usuario.salvar.post(salvarResquest)
+    const salvarResquest: UsuarioSalvarResquest = {
+      tipos: tipos.value,
+      usuario: usuarioForm,
     }
-  } finally {
-    loading.value = false
+
+    if (!isEditing.value) {
+      delete salvarResquest.usuario.id
+    }
+
+    await api.usuario.salvar.post(salvarResquest)
 
     if (isEditing.value) {
       Notify.create({
@@ -173,6 +187,8 @@ async function save() {
         type: 'positive',
       })
     }
+  } finally {
+    loading.value = false
     onDialogOK()
   }
 }

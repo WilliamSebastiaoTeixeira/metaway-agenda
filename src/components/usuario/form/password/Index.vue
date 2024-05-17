@@ -1,9 +1,26 @@
 <template>
-  <div class="column">
+  <div v-if="modelValue" class="column">
     <q-input
-      v-model="modelValue"
-      label="Senha"
-      :type="isPwd ? 'password' : 'text'"
+      v-model="modelValue.password"
+      label="Senha atual"
+      :type="isPassword ? 'password' : 'text'"
+      lazy-rules
+      dense
+      outlined
+      :rules="[() => !v$.password.required.$invalid || 'Campo obrigatório']"
+    >
+      <template #append>
+        <q-icon
+          :name="isPassword ? 'visibility_off' : 'visibility'"
+          class="cursor-pointer"
+          @click="isPassword = !isPassword"
+        />
+      </template>
+    </q-input>
+    <q-input
+      v-model="modelValue.newPassword"
+      label="Nova senha"
+      :type="isNewPassword ? 'password' : 'text'"
       lazy-rules
       dense
       outlined
@@ -19,17 +36,17 @@
     >
       <template #append>
         <q-icon
-          :name="isPwd ? 'visibility_off' : 'visibility'"
+          :name="isNewPassword ? 'visibility_off' : 'visibility'"
           class="cursor-pointer"
-          @click="isPwd = !isPwd"
+          @click="isNewPassword = !isNewPassword"
         />
       </template>
     </q-input>
 
     <q-input
       v-model="confirmationPassword"
-      label="Confirmar Senha"
-      :type="isConfirmationPwd ? 'password' : 'text'"
+      label="Confirmar nova senha"
+      :type="isConfirmationPassword ? 'password' : 'text'"
       dense
       outlined
       lazy-rules
@@ -48,9 +65,9 @@
     >
       <template #append>
         <q-icon
-          :name="isConfirmationPwd ? 'visibility_off' : 'visibility'"
+          :name="isConfirmationPassword ? 'visibility_off' : 'visibility'"
           class="cursor-pointer"
-          @click="isConfirmationPwd = !isConfirmationPwd"
+          @click="isConfirmationPassword = !isConfirmationPassword"
         />
       </template>
     </q-input>
@@ -63,32 +80,57 @@ import { requiredIf, minLength, sameAs } from '@vuelidate/validators'
 
 import type { UsuarioPasswordForm, UsuarioPasswordFormProps } from './'
 
-const modelValue = defineModel<string>()
+const modelValue = defineModel<{
+  password?: string
+  newPassword?: string
+}>()
 
 const props = withDefaults(defineProps<UsuarioPasswordFormProps>(), {
   required: false,
 })
 
-const isPwd = ref(true)
-const isConfirmationPwd = ref(true)
-const confirmationPassword = ref()
+const isPassword = ref(true)
+const isNewPassword = ref(true)
+const isConfirmationPassword = ref(true)
+
+const confirmationPassword = ref('')
 
 const form = computed(() => ({
-  newPassword: modelValue.value,
+  password: modelValue.value?.password,
+  newPassword: modelValue.value?.newPassword,
   confirmationPassword: confirmationPassword?.value,
 }))
 
 const rules = computed(() => ({
+  password: {
+    required: requiredIf(
+      () =>
+        !!confirmationPassword.value.trim() ||
+        props.required ||
+        !!modelValue.value?.newPassword?.trim(),
+    ),
+  },
   newPassword: {
-    required: requiredIf(() => !!confirmationPassword.value || props.required),
+    required: requiredIf(
+      () =>
+        !!confirmationPassword.value.trim() ||
+        props.required ||
+        !!modelValue.value?.password?.trim(),
+    ),
     minLength: minLength(8),
-    lettersAndNumbers: () => checkPasswordStrength(modelValue.value),
+    lettersAndNumbers: () =>
+      checkPasswordStrength(modelValue.value?.newPassword),
   },
   confirmationPassword: {
-    required: requiredIf(() => !!modelValue.value),
+    required: requiredIf(
+      () =>
+        !!modelValue.value?.newPassword?.trim() ||
+        !!modelValue.value?.password?.trim(),
+    ),
     minLength: minLength(8),
-    sameAsPassword: sameAs(form.value.newPassword),
-    lettersAndNumbers: () => checkPasswordStrength(modelValue.value),
+    sameAsPassword: sameAs(form.value.newPassword?.trim()),
+    lettersAndNumbers: () =>
+      checkPasswordStrength(modelValue.value?.newPassword?.trim()),
   },
 }))
 

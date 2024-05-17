@@ -42,7 +42,7 @@
         >
           <template #append>
             <q-icon
-              :name="mostrarSenha ? 'las la-eye-slash' : 'las la-eye'"
+              :name="!mostrarSenha ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
               @click="mostrarSenha = !mostrarSenha"
             />

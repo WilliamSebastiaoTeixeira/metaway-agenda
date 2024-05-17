@@ -6,7 +6,7 @@
 
     <UsuarioForm ref="usuarioFormRef" v-model="usuarioForm" />
 
-    <PasswordForm ref="passwordFormRef" v-model="newPassword" />
+    <PasswordForm ref="passwordFormRef" v-model="passwordForm" />
 
     <div class="row justify-end">
       <q-btn
@@ -30,7 +30,6 @@ import { useAuthorizationStore } from 'src/stores/authorization'
 import api from 'src/api'
 
 import type { Usuario } from 'src/types/usuario'
-import type { UsuarioAlterarSenhaRequest } from 'src/api/usuario'
 
 import UsuarioForm from 'src/components/usuario/form/usuario/Index.vue'
 import PasswordForm from 'src/components/usuario/form/password/Index.vue'
@@ -40,7 +39,6 @@ const auth = useAuthorizationStore()
 const usuarioFormRef = ref()
 const passwordFormRef = ref()
 
-const newPassword = ref()
 const loading = ref(false)
 
 const usuarioLogado = computed(() => auth.usuario)
@@ -60,12 +58,9 @@ const usuarioForm: Usuario = reactive({
   username: '',
 })
 
-const passwordForm = computed<UsuarioAlterarSenhaRequest>(() => {
-  return {
-    newPassword: newPassword.value,
-    password: usuarioForm.password,
-    username: usuarioForm.username,
-  }
+const passwordForm = reactive({
+  password: '',
+  newPassword: '',
 })
 
 async function load() {
@@ -86,16 +81,21 @@ async function save() {
       })
     }
 
-    if (passwordForm.value.newPassword) {
-      await api.usuario.alterarSenha.post(passwordForm.value)
+    if (passwordForm.password && passwordForm.newPassword) {
+      await api.usuario.alterarSenha.post({
+        newPassword: passwordForm.newPassword,
+        password: passwordForm.password,
+        username: usuarioForm.username,
+      })
     }
-  } finally {
-    loading.value = false
+
     Notify.create({
       message: 'Usuario atualizado com sucesso',
       position: 'bottom',
       type: 'positive',
     })
+  } finally {
+    loading.value = false
   }
 }
 
