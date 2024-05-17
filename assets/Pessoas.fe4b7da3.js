@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper.21dcd24c.js";import{o,aF as r}from"./index.145b84a3.js";const s={};function a(c,t){return o(),r("div",null,"Pessoas")}var f=e(s,[["render",a]]);export{f as default};
