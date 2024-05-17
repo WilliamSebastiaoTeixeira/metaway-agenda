@@ -2,6 +2,7 @@
   <q-input
     v-bind="props"
     v-model="modelValue"
+    placeholder="AAAA-MM-DD"
     mask="####-##-##"
     :rules="[
       () => !v$.date.required.$invalid || 'O preenchimento é obrigatório',

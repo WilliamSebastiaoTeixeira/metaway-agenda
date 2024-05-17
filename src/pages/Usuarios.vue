@@ -16,7 +16,11 @@
       />
     </div>
 
-    <Table v-model="usuarios" @editar="editarCadastarUsuarioDialog" />
+    <Table
+      v-model="usuarios"
+      :loading="loading"
+      @editar="editarCadastarUsuarioDialog"
+    />
   </q-page>
 </template>
 <script setup lang="ts">
@@ -34,14 +38,20 @@ import EditarCadastrarDialog from 'src/components/usuario/dialog/EditarCadastrar
 
 const $q = useQuasar()
 const usuarios = ref<Usuario[]>([])
+const loading = ref(false)
 
 const filter: UsuarioPesquisarRequest = reactive({
   termo: '',
 })
 
 async function load() {
-  const data = await api.usuario.pesquisar.post(filter)
-  usuarios.value = data
+  try {
+    loading.value = true
+    const data = await api.usuario.pesquisar.post(filter)
+    usuarios.value = data
+  } finally {
+    loading.value = false
+  }
 }
 
 function editarCadastarUsuarioDialog(usuario: Usuario | undefined) {
@@ -51,7 +61,7 @@ function editarCadastarUsuarioDialog(usuario: Usuario | undefined) {
       usuario,
     },
   }).onOk(() => {
-    load
+    load()
   })
 }
 

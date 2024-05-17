@@ -61,9 +61,13 @@ import { ref, computed } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, minLength, sameAs } from '@vuelidate/validators'
 
-import type { UsuarioPasswordForm } from './'
+import type { UsuarioPasswordForm, UsuarioPasswordFormProps } from './'
 
 const modelValue = defineModel<string>()
+
+const props = withDefaults(defineProps<UsuarioPasswordFormProps>(), {
+  required: false,
+})
 
 const isPwd = ref(true)
 const isConfirmationPwd = ref(true)
@@ -76,7 +80,7 @@ const form = computed(() => ({
 
 const rules = computed(() => ({
   newPassword: {
-    required: requiredIf(() => !!confirmationPassword.value),
+    required: requiredIf(() => !!confirmationPassword.value || props.required),
     minLength: minLength(8),
     lettersAndNumbers: () => checkPasswordStrength(modelValue.value),
   },

@@ -40,7 +40,7 @@ const auth = useAuthorizationStore()
 const usuarioFormRef = ref()
 const passwordFormRef = ref()
 
-const newPassword = ref('')
+const newPassword = ref()
 const loading = ref(false)
 
 const usuarioLogado = computed(() => auth.usuario)
@@ -77,9 +77,7 @@ async function load() {
 async function save() {
   try {
     loading.value = true
-    const data = await api.usuario.atualizar.put(usuarioForm)
-
-    Object.assign(usuarioForm, data.object)
+    await api.usuario.atualizar.put(usuarioForm)
 
     if (usuarioLogado.value) {
       auth.setUsuario({

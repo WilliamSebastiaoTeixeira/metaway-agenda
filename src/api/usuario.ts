@@ -29,7 +29,9 @@ export type UsuarioPesquisarResponse = Usuario[]
 
 export type UsuarioSalvarResquest = {
   tipos: RoleUsuarioEnum[]
-  usuario: Usuario
+  usuario: Omit<Usuario, 'id'> & {
+    id?: number
+  }
 }
 
 export type UsuarioSalvarResponse = ResponseWrapper<{
