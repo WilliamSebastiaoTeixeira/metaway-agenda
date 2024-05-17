@@ -26,25 +26,18 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { type QInputProps } from 'quasar'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf } from '@vuelidate/validators'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
-import type { GenericInputDate } from './date'
-
-interface Props extends Omit<QInputProps, 'modelValue'> {
-  date: Date | null | undefined
-  iconPositon: 'prepend' | 'append'
-  required: boolean
-}
+import type { GenericInputDateExpose, GenericInputDateProps } from './'
 
 dayjs.extend(customParseFormat)
 
 const modelValue = defineModel<string>()
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<GenericInputDateProps>(), {
   date: null,
   iconPositon: 'prepend',
   required: false,
@@ -65,7 +58,7 @@ const v$ = useVuelidate(rules, form)
 
 const valid = computed(() => !v$.value.$invalid)
 
-defineExpose<GenericInputDate>({
+defineExpose<GenericInputDateExpose>({
   valid,
 })
 </script>

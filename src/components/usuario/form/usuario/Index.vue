@@ -66,21 +66,21 @@ import { vMaska } from 'maska'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
-import type { UsuarioForm } from 'src/components/usuario-form/usuarioForm'
-import type { GenericInputCPF } from 'src/components/generic/input/cpf/CPF'
-import type { GenericInputEmail } from 'src/components/generic/input/email/email'
-import type { GenericInputDate } from 'src/components/generic/input/date/date'
+import type { UsuarioFormExpose } from './'
+import type { GenericInputCPFExpose } from 'src/components/generic/input/cpf'
+import type { GenericInputEmailExpose } from 'src/components/generic/input/email'
+import type { GenericInputDateExpose } from 'src/components/generic/input/date'
 import type { Usuario } from 'src/types/usuario'
 
-import CPF from 'src/components/generic/input/cpf/CPF.vue'
-import Date from 'src/components/generic/input/date/Date.vue'
-import Email from 'src/components/generic/input/email/Email.vue'
+import CPF from 'src/components/generic/input/cpf/Index.vue'
+import Date from 'src/components/generic/input/date/Index.vue'
+import Email from 'src/components/generic/input/email/Index.vue'
 
 const modelValue = defineModel<Usuario>()
 
-const cpfRef = ref<GenericInputCPF>()
-const emailRef = ref<GenericInputEmail>()
-const dataNascimentoRef = ref<GenericInputDate>()
+const cpfRef = ref<GenericInputCPFExpose>()
+const emailRef = ref<GenericInputEmailExpose>()
+const dataNascimentoRef = ref<GenericInputDateExpose>()
 
 const form = computed(() => ({
   nome: modelValue.value?.nome,
@@ -105,7 +105,7 @@ const valid = computed(() => {
   )
 })
 
-defineExpose<UsuarioForm>({
+defineExpose<UsuarioFormExpose>({
   valid,
 })
 </script>

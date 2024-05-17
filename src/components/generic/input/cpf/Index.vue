@@ -17,22 +17,17 @@ import { vMaska } from 'maska'
 
 import useVuelidate from '@vuelidate/core'
 import { requiredIf } from '@vuelidate/validators'
-import { type QInputProps } from 'quasar'
 
 /* eslint-disable */
 //@ts-ignore
 import { validateBr } from 'js-brasil'
 /* eslint-enable */
 
-import type { GenericInputCPF } from './CPF'
-
-interface Props extends Omit<QInputProps, 'modelValue'> {
-  required: boolean
-}
+import type { GenericInputCPFExpose, GenericInputCPFProps } from './'
 
 const modelValue = defineModel<string>()
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<GenericInputCPFProps>(), {
   required: false,
 })
 
@@ -54,7 +49,7 @@ const v$ = useVuelidate(rules, form)
 
 const valid = computed(() => !v$.value.$invalid)
 
-defineExpose<GenericInputCPF>({
+defineExpose<GenericInputCPFExpose>({
   valid,
 })
 </script>

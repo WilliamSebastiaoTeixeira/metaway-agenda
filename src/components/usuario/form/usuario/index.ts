@@ -1,5 +1,5 @@
 import { Ref } from 'vue'
 
-export interface GenericInputDate {
+export interface UsuarioFormExpose {
   valid: Ref<boolean>
 }

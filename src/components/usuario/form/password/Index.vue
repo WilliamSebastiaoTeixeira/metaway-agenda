@@ -61,7 +61,7 @@ import { ref, computed } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, minLength, sameAs } from '@vuelidate/validators'
 
-import type { MeuCadastroPasswordForm } from './passwordForm'
+import type { UsuarioPasswordForm } from './'
 
 const modelValue = defineModel<string>()
 
@@ -98,7 +98,7 @@ function checkPasswordStrength(password: string | undefined) {
   return regex.test(password)
 }
 
-defineExpose<MeuCadastroPasswordForm>({
+defineExpose<UsuarioPasswordForm>({
   valid,
 })
 </script>

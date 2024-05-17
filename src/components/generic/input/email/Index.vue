@@ -13,19 +13,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { vMaska } from 'maska'
-import { type QInputProps } from 'quasar'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, email } from '@vuelidate/validators'
 
-import type { GenericInputEmail } from './email'
-
-interface Props extends Omit<QInputProps, 'modelValue'> {
-  required: boolean
-}
+import type { GenericInputEmailExpose, GenericInputEmailProps } from './'
 
 const modelValue = defineModel<string>()
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<GenericInputEmailProps>(), {
   required: false,
 })
 
@@ -44,7 +39,7 @@ const v$ = useVuelidate(rules, form)
 
 const valid = computed(() => !v$.value.$invalid)
 
-defineExpose<GenericInputEmail>({
+defineExpose<GenericInputEmailExpose>({
   valid,
 })
 </script>
