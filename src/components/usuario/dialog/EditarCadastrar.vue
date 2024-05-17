@@ -35,9 +35,9 @@
             />
           </div>
 
-          <div v-if="!isEditing" class="column">
+          <div class="column">
             <q-input
-              v-model="usuarioForm.password"
+              v-model="password"
               label="Senha"
               :type="isPassword ? 'password' : 'text'"
               lazy-rules
@@ -114,6 +114,7 @@ const optionsTipos = [
   { label: 'Usuario', value: RoleUsuarioEnum.ROLE_USER },
 ]
 
+const password = ref('')
 const isPassword = ref(true)
 const usuarioFormRef = ref()
 
@@ -136,14 +137,14 @@ const isEditing = computed(() => !!props.usuario)
 const tiposValid = computed(() => !!tipos.value.length)
 
 const form = computed(() => ({
-  password: usuarioForm.password,
+  password: password.value,
 }))
 
 const rules = computed(() => ({
   password: {
     required: requiredIf(() => !isEditing.value),
     minLength: minLength(8),
-    lettersAndNumbers: () => checkPasswordStrength(usuarioForm.password),
+    lettersAndNumbers: () => checkPasswordStrength(password.value.trim()),
   },
 }))
 
@@ -166,6 +167,10 @@ async function save() {
     const salvarResquest: UsuarioSalvarResquest = {
       tipos: tipos.value,
       usuario: usuarioForm,
+    }
+
+    if (password.value.trim()) {
+      salvarResquest.usuario.password = password.value
     }
 
     if (!isEditing.value) {
