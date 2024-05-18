@@ -1,9 +1,10 @@
-import { Endereco } from './endereco'
-import { Foto } from './foto'
+import type { Endereco } from './endereco'
+import type { Foto } from './foto'
 
+export type EnderecoWithoutId = Omit<Endereco, 'id'> & { id?: number }
 export interface Pessoa {
   cpf: string
-  endereco: Omit<Endereco, 'id'> & { id?: number }
+  endereco: EnderecoWithoutId
   foto: Foto | null
   id: number
   nome: string
