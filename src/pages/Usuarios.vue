@@ -12,15 +12,11 @@
         unelevated
         no-caps
         label="Novo"
-        @click="editarCadastarUsuarioDialog(undefined)"
+        @click="showDialog(undefined)"
       />
     </div>
 
-    <Table
-      v-model="usuarios"
-      :loading="loading"
-      @editar="editarCadastarUsuarioDialog"
-    />
+    <Table v-model="usuarios" :loading="loading" @editar="showDialog" />
   </q-page>
 </template>
 <script setup lang="ts">
@@ -33,8 +29,8 @@ import api from 'src/api'
 import type { Usuario } from 'src/types/usuario'
 import type { UsuarioPesquisarRequest } from 'src/api/usuario'
 
-import Table from 'src/components/usuario/Table.vue'
-import EditarCadastrarDialog from 'src/components/usuario/dialog/EditarCadastrar.vue'
+import Table from 'src/components/usuario/table/Index.vue'
+import Dialog from 'src/components/usuario/dialog/Index.vue'
 
 const $q = useQuasar()
 const usuarios = ref<Usuario[]>([])
@@ -54,9 +50,9 @@ async function load() {
   }
 }
 
-function editarCadastarUsuarioDialog(usuario: Usuario | undefined) {
+function showDialog(usuario: Usuario | undefined) {
   $q.dialog({
-    component: EditarCadastrarDialog,
+    component: Dialog,
     componentProps: {
       usuario,
     },
