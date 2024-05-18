@@ -1,1 +1,0 @@
-import{o as e,f as t,w as r,aT as a,_ as o}from"./index.451ac893.js";import{_ as c}from"./plugin-vue_export-helper.21dcd24c.js";const s={};function _(f,n){return e(),t(o,{class:"row col justify-center items-center"},{default:r(()=>[a(" Home ")]),_:1})}var l=c(s,[["render",_]]);export{l as default};
