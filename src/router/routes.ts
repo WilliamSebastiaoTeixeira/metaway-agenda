@@ -1,13 +1,22 @@
 import { RouteRecordRaw } from 'vue-router'
 import { useAuthorizationStore } from 'src/stores/authorization'
 
+import LoginLayout from 'src/layouts/Login.vue'
+import CheckLayout from 'src/layouts/Check.vue'
+
+import Home from 'src/pages/Home.vue'
+import MeuCadastro from 'src/pages/MeuCadastro.vue'
+import Usuarios from 'src/pages/Usuarios.vue'
 import Pessoas from 'src/pages/Pessoas.vue'
+import Contatos from 'src/pages/Contatos.vue'
+
+import Error from 'src/pages/404.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/login',
-    component: () => import('src/layouts/Login.vue'),
+    component: LoginLayout,
     children: [
       {
         path: '/login',
@@ -25,19 +34,19 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    component: () => import('src/layouts/Check.vue'),
+    component: CheckLayout,
     children: [
       {
         path: 'home',
-        component: () => import('src/pages/Home.vue'),
+        component: Home,
       },
       {
         path: 'meu-cadastro',
-        component: () => import('src/pages/MeuCadastro.vue'),
+        component: () => MeuCadastro,
       },
       {
         path: 'usuarios',
-        component: () => import('src/pages/Usuarios.vue'),
+        component: Usuarios,
       },
       {
         path: 'pessoas',
@@ -45,13 +54,13 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'contatos',
-        component: () => import('src/pages/Contatos.vue'),
+        component: Contatos,
       },
     ],
   },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('src/pages/404.vue'),
+    component: Error,
   },
 ]
 export default routes
