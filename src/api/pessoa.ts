@@ -13,7 +13,9 @@ export type PessoaPesquisarResponse = Pessoa[]
 
 export type PessoaRemoverResponse = ResponseWrapper<boolean>
 
-export type PessoaSalvarRequest = Pessoa
+export type PessoaSalvarRequest = Omit<Pessoa, 'id'> & {
+  id?: number
+}
 
 export type PessoaSalvarResponse = ResponseWrapper<Pessoa>
 

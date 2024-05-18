@@ -10,7 +10,7 @@
           <div class="row items-center justify-between">
             <div class="row items-baseline q-gutter-x-sm">
               <span class="text-h6 text-bold text-grey-9">
-                {{ `${usuario ? 'Editar' : 'Novo'} usuario` }}
+                {{ `${isEditing ? 'Editar' : 'Novo'} usuario` }}
               </span>
             </div>
             <q-btn v-close-popup icon="la la-close" flat round color="grey-8" />
