@@ -50,10 +50,12 @@ import { ref, onMounted, computed, reactive } from 'vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
 import { useGeneralStore } from 'src/stores/general'
 import { storeToRefs } from 'pinia'
+import { cloneDeep } from 'lodash'
 
-//import api from 'src/api'
+import api from 'src/api'
 
 import type { Pessoa } from 'src/types/pessoa'
+import type { PessoaSalvarRequest } from 'src/api/pessoa'
 
 import PessoaForm from 'src/components/pessoa/form/pessoa/Index.vue'
 import EnderecoForm from 'src/components/pessoa/form/endereco/Index.vue'
@@ -101,11 +103,28 @@ async function save() {
   try {
     loading.value = true
 
-    Notify.create({
-      message: 'Usuario criado com sucesso',
-      position: 'bottom',
-      type: 'positive',
-    })
+    const salvarResquest: PessoaSalvarRequest = cloneDeep(pessoaForm)
+
+    if (!isEditing.value) {
+      delete salvarResquest.id
+      delete salvarResquest.endereco.id
+    }
+
+    await api.pessoa.salvar.post(salvarResquest)
+
+    if (isEditing.value) {
+      Notify.create({
+        message: 'Pessoa atualizada com sucesso',
+        position: 'bottom',
+        type: 'positive',
+      })
+    } else {
+      Notify.create({
+        message: 'Pessoa criada com sucesso',
+        position: 'bottom',
+        type: 'positive',
+      })
+    }
   } finally {
     loading.value = false
     onDialogOK()
