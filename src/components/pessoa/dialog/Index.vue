@@ -19,7 +19,9 @@
 
         <q-separator />
 
-        <q-card class="q-mt-md q-px-md q-pb-md" flat> {{ pessoaForm }} </q-card>
+        <q-card class="q-mt-md q-px-md q-pb-md" flat>
+          <PessoaForm ref="pessoaFormRef" v-model="pessoaForm" />
+        </q-card>
       </div>
 
       <q-card-section>
@@ -52,6 +54,8 @@ import { storeToRefs } from 'pinia'
 
 import type { Pessoa } from 'src/types/pessoa'
 
+import PessoaForm from 'src/components/pessoa/form/pessoa/Index.vue'
+
 interface Props {
   pessoa?: Pessoa
 }
@@ -64,6 +68,7 @@ const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent()
 const generalStore = useGeneralStore()
 const { mobileOrSmallWidth } = storeToRefs(generalStore)
 
+const pessoaFormRef = ref()
 const loading = ref(false)
 
 const pessoaForm: Pessoa = reactive({
@@ -86,7 +91,7 @@ const pessoaForm: Pessoa = reactive({
 const isEditing = computed(() => !!props.pessoa)
 
 const valid = computed(() => {
-  return true
+  return !!pessoaFormRef.value?.valid
 })
 
 async function save() {

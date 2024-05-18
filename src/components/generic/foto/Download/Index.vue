@@ -1,7 +1,7 @@
 <template>
   <q-img
     :src="image"
-    alt="Imagem de perfil"
+    :alt="props.foto?.name"
     ratio="1"
     fit="scale-down"
     width="100%"

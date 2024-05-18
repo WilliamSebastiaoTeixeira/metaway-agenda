@@ -21,7 +21,12 @@
 
       <template #body-cell-foto="props">
         <q-td :props="props">
-          <Foto :id="props.row.id" :foto="props.row.foto" />
+          <Foto
+            v-if="props.row.foto"
+            :id="props.row.id"
+            style="height: 150px; width: 150px"
+            :foto="props.row.foto"
+          />
         </q-td>
       </template>
 
@@ -89,9 +94,14 @@
           class="column items-center justify-center full-width"
         >
           <q-item-section class="column items-center q-pa-md q-gutter-y-sm">
-            <q-icon avatar name="las la-users" color="grey-8" size="40px" />
+            <q-icon
+              avatar
+              name="las la-user-circle"
+              color="grey-8"
+              size="40px"
+            />
             <span class="text-grey-7 text-body2">
-              Nenhum usuário encontrado
+              Nenhuma pessoa encontrada
             </span>
           </q-item-section>
         </q-item>
@@ -106,7 +116,7 @@ import { storeToRefs } from 'pinia'
 
 import type { Pessoa } from 'src/types/pessoa'
 
-import Foto from 'src/components/generic/foto/Index.vue'
+import Foto from 'src/components/generic/foto/Download/Index.vue'
 
 interface Props {
   loading: boolean
