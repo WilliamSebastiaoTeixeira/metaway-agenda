@@ -11,7 +11,7 @@
         color="secondary"
         unelevated
         no-caps
-        label="Novo usuário"
+        label="Novo"
         @click="editarCadastarUsuarioDialog(undefined)"
       />
     </div>
