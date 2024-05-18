@@ -22,7 +22,7 @@ import api from 'src/api'
 import type { Pessoa } from 'src/types/pessoa'
 import type { PessoaPesquisarResquest } from 'src/api/pessoa'
 
-import Table from 'src/components/pessoa/Table.vue'
+import Table from 'src/components/pessoa/table/Index.vue'
 
 const pessoas = ref<Pessoa[]>()
 const loading = ref(false)
