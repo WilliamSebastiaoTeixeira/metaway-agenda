@@ -32,7 +32,7 @@ import { requiredIf } from '@vuelidate/validators'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 
-import type { GenericInputDateExpose, GenericInputDateProps } from './'
+import type { GenericInputDateExpose, GenericInputDateProps } from './index.ts'
 
 dayjs.extend(customParseFormat)
 

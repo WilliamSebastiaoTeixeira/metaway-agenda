@@ -23,7 +23,7 @@ import { requiredIf } from '@vuelidate/validators'
 import { validateBr } from 'js-brasil'
 /* eslint-enable */
 
-import type { GenericInputCPFExpose, GenericInputCPFProps } from './'
+import type { GenericInputCPFExpose, GenericInputCPFProps } from './index.ts'
 
 const modelValue = defineModel<string>()
 

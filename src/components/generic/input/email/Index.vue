@@ -16,7 +16,10 @@ import { vMaska } from 'maska'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, email } from '@vuelidate/validators'
 
-import type { GenericInputEmailExpose, GenericInputEmailProps } from './'
+import type {
+  GenericInputEmailExpose,
+  GenericInputEmailProps,
+} from './index.ts'
 
 const modelValue = defineModel<string>()
 

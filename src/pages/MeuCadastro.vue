@@ -31,8 +31,8 @@ import api from 'src/api'
 
 import type { Usuario } from 'src/types/usuario'
 
-import UsuarioForm from 'src/components/usuario/form/usuario/Index.vue'
-import PasswordForm from 'src/components/usuario/form/password/Index.vue'
+import UsuarioForm from 'src/components/usuario/form/usuario/Component.vue'
+import PasswordForm from 'src/components/usuario/form/password/Component.vue'
 
 const auth = useAuthorizationStore()
 
