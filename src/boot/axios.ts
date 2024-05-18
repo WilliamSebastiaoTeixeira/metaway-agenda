@@ -10,8 +10,6 @@ declare module '@vue/runtime-core' {
   }
 }
 
-const auth = useAuthorizationStore()
-
 const api = axios.create({
   baseURL: 'https://demometaway.vps-kinghost.net:8485/api/',
 })
@@ -19,6 +17,8 @@ const api = axios.create({
 api.defaults.timeout = 300000
 
 api.interceptors.request.use((config) => {
+  const auth = useAuthorizationStore()
+
   if (auth.accessToken && auth.tokenType && config.headers) {
     config.headers.Authorization = `${auth.tokenType} ${auth.accessToken}`
   }
