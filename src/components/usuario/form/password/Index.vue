@@ -78,7 +78,7 @@ import { ref, computed } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { requiredIf, minLength, sameAs } from '@vuelidate/validators'
 
-import type { UsuarioPasswordForm, UsuarioPasswordFormProps } from './index.ts'
+import type { UsuarioPasswordForm, UsuarioPasswordFormProps } from './index'
 
 const modelValue = defineModel<{
   password?: string

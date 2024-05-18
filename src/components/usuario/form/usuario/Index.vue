@@ -66,7 +66,7 @@ import { vMaska } from 'maska'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
-import type { UsuarioFormExpose } from './index.ts'
+import type { UsuarioFormExpose } from './index'
 import type { GenericInputCPFExpose } from 'src/components/generic/input/cpf'
 import type { GenericInputEmailExpose } from 'src/components/generic/input/email'
 import type { GenericInputDateExpose } from 'src/components/generic/input/date'
