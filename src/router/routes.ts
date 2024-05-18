@@ -1,8 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import { useAuthorizationStore } from 'src/stores/authorization'
 
-import Pessoas from 'src/pages/Pessoas.vue'
-
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -41,7 +39,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'pessoas',
-        component: Pessoas,
+        component: () => import('src/pages/Pessoas.vue'),
       },
       {
         path: 'contatos',

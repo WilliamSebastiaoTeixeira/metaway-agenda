@@ -29,8 +29,8 @@ import api from 'src/api'
 import type { Usuario } from 'src/types/usuario'
 import type { UsuarioPesquisarRequest } from 'src/api/usuario'
 
-import Table from 'src/components/usuario/table/Component.vue'
-import Dialog from 'src/components/usuario/dialog/Component.vue'
+import Table from 'src/components/usuario/table/Index.vue'
+import Dialog from 'src/components/usuario/dialog/Index.vue'
 
 const $q = useQuasar()
 const usuarios = ref<Usuario[]>([])
