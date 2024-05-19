@@ -5,10 +5,10 @@ import { Usuario } from './usuario'
 export interface Contato {
   email: string
   id: number
-  pessoa: Pessoa
+  pessoa: Pessoa | null
   privado: boolean
   tag: string
   telefone: string
   tipoContato: TipoContatoEnum
-  usuario: Usuario
+  usuario: Usuario | null
 }

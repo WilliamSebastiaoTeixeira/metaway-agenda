@@ -10,14 +10,17 @@
       <q-btn color="secondary" unelevated no-caps label="Novo" />
     </div>
 
-    {{ contatos }}
-
-    <!--<Table v-model="pessoas" :loading="loading" @editar="showDialog" />-->
+    <Table
+      v-model="contatos"
+      :loading="loading"
+      @editar="showDialog"
+      @remover="removeDialog"
+    />
   </q-page>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from 'vue'
-//import { useQuasar } from 'quasar'
+import { useQuasar, Notify } from 'quasar'
 import { debounce } from 'lodash'
 
 import api from 'src/api'
@@ -25,10 +28,10 @@ import api from 'src/api'
 import type { Contato } from 'src/types/contato'
 import type { ContatoPesquisarRequest } from 'src/api/contato'
 
-//import Table from 'src/components/pessoa/table/Index.vue'
-//import Dialog from 'src/components/pessoa/dialog/Index.vue'
+import Table from 'src/components/contato/table/Index.vue'
+import Dialog from 'src/components/contato/dialog/Index.vue'
 
-//const $q = useQuasar()
+const $q = useQuasar()
 
 const contatos = ref<Contato[]>()
 const loading = ref(false)
@@ -37,18 +40,49 @@ const filter: ContatoPesquisarRequest = reactive({
   termo: '',
 })
 
-/*
-function showDialog(pessoa: Pessoa | undefined) {
+function showDialog(contato: Contato | undefined) {
   $q.dialog({
     component: Dialog,
     componentProps: {
-      pessoa,
+      contato,
     },
   }).onOk(() => {
     load()
   })
 }
-*/
+
+async function removeDialog(contato: Contato) {
+  $q.dialog({
+    title: 'Confirmar',
+    message: 'Você tem certeza que deseja remover?',
+    ok: {
+      label: 'Remover',
+      color: 'negative',
+      unelevated: true,
+      'no-caps': true,
+    },
+    cancel: {
+      label: 'Cancelar',
+      color: 'blue',
+      flat: true,
+      'no-caps': true,
+    },
+  }).onOk(async () => {
+    try {
+      await api.contato.remover.delete(contato.id)
+
+      Notify.create({
+        message: 'Contato removido com sucesso',
+        position: 'bottom',
+        type: 'positive',
+      })
+
+      contatos.value = contatos.value?.filter(
+        (contatoFilter) => contatoFilter.id !== contato.id,
+      )
+    } catch (e) {}
+  })
+}
 
 async function load() {
   try {

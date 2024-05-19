@@ -12,7 +12,7 @@ export type ContatoPesquisarResponse = Contato[]
 
 export type ContatoRemoverResponse = ResponseWrapper<boolean>
 
-export type ContatoSalvarRequest = Contato
+export type ContatoSalvarRequest = Omit<Contato, 'id'> & { id?: number }
 export type ContatoSalvarResponse = Contato
 
 export default class ContatoApi {
