@@ -23,7 +23,7 @@
           <div class="row justify-around items-center q-mb-md">
             <div
               v-if="pessoaForm?.foto || newFotoUrl"
-              class="column items-center justify-center"
+              style="position: relative"
             >
               <Foto
                 :id="pessoaForm.id"
@@ -35,14 +35,16 @@
               <q-btn
                 color="negative"
                 dense
+                round
                 unelevated
                 no-caps
-                label="Excluir"
+                icon="las la-times-circle"
+                style="position: absolute; right: -17px; top: 0"
                 @click="exluirFoto"
               />
             </div>
 
-            <q-file v-model="file" outlined label="Selecionar Imagem" />
+            <q-file v-model="file" outlined label="Selecionar imagem" />
           </div>
           <PessoaForm ref="pessoaFormRef" v-model="pessoaForm" />
           <EnderecoForm ref="enderecoFormRef" v-model="pessoaForm.endereco" />
