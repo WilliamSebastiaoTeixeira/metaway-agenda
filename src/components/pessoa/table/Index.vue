@@ -43,6 +43,19 @@
         </q-td>
       </template>
 
+      <template #body-cell-remover="props">
+        <q-td :props="props">
+          <q-btn
+            unelevated
+            round
+            flat
+            color="negative"
+            icon="las la-trash-alt"
+            @click="emit('remover', props.row)"
+          />
+        </q-td>
+      </template>
+
       <template #item="props">
         <div
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
@@ -73,6 +86,15 @@
                     color="blue-8"
                     icon="las la-edit"
                     @click="emit('editar', props.row)"
+                  />
+                  <q-btn
+                    v-else-if="col.name === 'remover'"
+                    unelevated
+                    round
+                    flat
+                    color="negative"
+                    icon="las la-trash-alt"
+                    @click="emit('remover', props.row)"
                   />
                   <q-item-label
                     v-else
@@ -128,6 +150,7 @@ const tableProps = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   editar: [pessoa: Pessoa]
+  remover: [pessoa: Pessoa]
 }>()
 
 const modelValue = defineModel<Pessoa[]>()
@@ -157,6 +180,12 @@ const columns: QTableProps['columns'] = [
   {
     name: 'editar',
     label: 'Editar',
+    align: 'left',
+    field: '',
+  },
+  {
+    name: 'remover',
+    label: 'Remover',
     align: 'left',
     field: '',
   },

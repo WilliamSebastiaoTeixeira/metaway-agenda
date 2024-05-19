@@ -16,12 +16,17 @@
       />
     </div>
 
-    <Table v-model="pessoas" :loading="loading" @editar="showDialog" />
+    <Table
+      v-model="pessoas"
+      :loading="loading"
+      @editar="showDialog"
+      @remover="removeDialog"
+    />
   </q-page>
 </template>
 <script setup lang="ts">
 import { onMounted, ref, reactive, watch } from 'vue'
-import { useQuasar } from 'quasar'
+import { useQuasar, Notify } from 'quasar'
 import { debounce } from 'lodash'
 
 import api from 'src/api'
@@ -49,6 +54,39 @@ function showDialog(pessoa: Pessoa | undefined) {
     },
   }).onOk(() => {
     load()
+  })
+}
+
+async function removeDialog(pessoa: Pessoa) {
+  $q.dialog({
+    title: 'Confirmar',
+    message: 'Você tem certeza que deseja remover?',
+    ok: {
+      label: 'Remover',
+      color: 'negative',
+      unelevated: true,
+      'no-caps': true,
+    },
+    cancel: {
+      label: 'Cancelar',
+      color: 'blue',
+      flat: true,
+      'no-caps': true,
+    },
+  }).onOk(async () => {
+    try {
+      await api.pessoa.remover.delete(pessoa.id)
+
+      Notify.create({
+        message: 'Pessoa removida com sucesso',
+        position: 'bottom',
+        type: 'positive',
+      })
+
+      pessoas.value = pessoas.value?.filter(
+        (pessoaFilter) => pessoaFilter.id !== pessoa.id,
+      )
+    } catch (e) {}
   })
 }
 
