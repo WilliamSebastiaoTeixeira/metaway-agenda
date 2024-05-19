@@ -28,7 +28,7 @@ export default class ContatoApi {
   pesquisar = {
     post: async function (params: ContatoPesquisarRequest) {
       const { data } = await api.post<ContatoPesquisarResponse>(
-        'contato/post',
+        'contato/pesquisar',
         params,
       )
       return data
