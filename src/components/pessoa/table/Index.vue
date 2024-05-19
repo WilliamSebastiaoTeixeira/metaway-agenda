@@ -116,7 +116,7 @@ import { storeToRefs } from 'pinia'
 
 import type { Pessoa } from 'src/types/pessoa'
 
-import Foto from 'src/components/generic/foto/Download/Index.vue'
+import Foto from 'src/components/generic/foto/Index.vue'
 
 interface Props {
   loading: boolean

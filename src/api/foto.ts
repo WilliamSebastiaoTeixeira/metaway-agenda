@@ -17,10 +17,17 @@ export default class FotoApi {
   }
 
   upload = {
-    post: async function (contatoId: number, file: FormData) {
+    post: async function (contatoId: number, file: File) {
+      const formData = new FormData()
+      formData.append('foto', file)
       const { data } = await api.post<FotoUploadResponse>(
         `foto/upload/${contatoId}`,
-        { file },
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
       )
       return data
     },

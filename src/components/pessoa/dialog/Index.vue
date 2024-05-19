@@ -20,6 +20,30 @@
         <q-separator />
 
         <q-card class="q-mt-md q-px-md q-pb-md" flat>
+          <div class="row justify-around items-center q-mb-md">
+            <div
+              v-if="pessoaForm?.foto || newFotoUrl"
+              class="column items-center justify-center"
+            >
+              <Foto
+                :id="pessoaForm.id"
+                style="height: 150px; width: 150px"
+                :foto="pessoaForm.foto"
+                :url="newFotoUrl"
+              />
+
+              <q-btn
+                color="negative"
+                dense
+                unelevated
+                no-caps
+                label="Excluir"
+                @click="exluirFoto"
+              />
+            </div>
+
+            <q-file v-model="file" outlined label="Selecionar Imagem" />
+          </div>
           <PessoaForm ref="pessoaFormRef" v-model="pessoaForm" />
           <EnderecoForm ref="enderecoFormRef" v-model="pessoaForm.endereco" />
         </q-card>
@@ -46,7 +70,7 @@
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, computed, reactive } from 'vue'
+import { ref, onMounted, computed, reactive, watch } from 'vue'
 import { useDialogPluginComponent, Notify } from 'quasar'
 import { useGeneralStore } from 'src/stores/general'
 import { storeToRefs } from 'pinia'
@@ -59,6 +83,7 @@ import type { PessoaSalvarRequest } from 'src/api/pessoa'
 
 import PessoaForm from 'src/components/pessoa/form/pessoa/Index.vue'
 import EnderecoForm from 'src/components/pessoa/form/endereco/Index.vue'
+import Foto from 'src/components/generic/foto/Index.vue'
 
 interface Props {
   pessoa?: Pessoa
@@ -75,6 +100,8 @@ const { mobileOrSmallWidth } = storeToRefs(generalStore)
 const pessoaFormRef = ref()
 const enderecoFormRef = ref()
 const loading = ref(false)
+const newFotoUrl = ref()
+const file = ref()
 
 const pessoaForm: Pessoa = reactive({
   cpf: '',
@@ -110,7 +137,11 @@ async function save() {
       delete salvarResquest.endereco.id
     }
 
-    await api.pessoa.salvar.post(salvarResquest)
+    const data = await api.pessoa.salvar.post(salvarResquest)
+
+    if (file.value) {
+      await api.foto.upload.post(data.object.id, file.value)
+    }
 
     if (isEditing.value) {
       Notify.create({
@@ -136,5 +167,20 @@ async function load() {
   Object.assign(pessoaForm, props.pessoa)
 }
 
+async function exluirFoto() {
+  file.value = undefined
+  newFotoUrl.value = undefined
+  pessoaForm.foto = null
+}
+
 onMounted(load)
+
+watch(file, () => {
+  if (!file.value) return
+  const reader = new FileReader()
+  reader.onloadend = () => {
+    newFotoUrl.value = reader.result
+  }
+  reader.readAsDataURL(file.value)
+})
 </script>

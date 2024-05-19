@@ -1,6 +1,6 @@
 <template>
   <q-img
-    :src="image"
+    :src="image || url"
     :alt="props.foto?.name"
     ratio="1"
     fit="scale-down"
@@ -9,25 +9,31 @@
   />
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 import api from 'src/api'
 
 import type { Foto } from 'src/types/foto'
 
 interface Props {
-  id: number
-  foto: Foto
+  id?: number | null
+  foto?: Foto | null
+  url?: string | null
 }
 
 const props = defineProps<Props>()
 const image = ref()
 
 async function load() {
-  if (!props.foto || !props.id) return
+  if (!props.foto || !props.id) {
+    image.value = undefined
+    return
+  }
   const data = await api.foto.download.get(props.id, props.foto)
   image.value = data
 }
 
 onMounted(load)
+
+watch(() => [props.foto, props.id, props.url], load)
 </script>
