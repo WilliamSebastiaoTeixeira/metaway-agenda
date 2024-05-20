@@ -20,7 +20,11 @@
         <q-separator />
 
         <q-card class="q-mt-md q-px-md q-pb-md" flat>
-          <ContatoForm ref="contatoFormRef" v-model="contatoForm" />
+          <ContatoForm
+            ref="contatoFormRef"
+            v-model="contatoForm"
+            :editing="isEditing"
+          />
         </q-card>
       </div>
 

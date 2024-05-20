@@ -22,12 +22,20 @@
     <q-separator />
 
     <q-toggle
+      v-if="!editing"
       v-model="modelValue.privado"
       label="Privado"
-      class="q-mb-sm q-mt-sm"
+      class="q-mt-md"
     />
 
-    <q-input v-model="modelValue.tag" label="Tag" outlined dense bottom-slots />
+    <q-input
+      v-model="modelValue.tag"
+      class="q-mt-md"
+      label="Tag"
+      outlined
+      dense
+      bottom-slots
+    />
 
     <q-select
       v-model="modelValue.tipoContato"
@@ -74,7 +82,7 @@ import useVuelidate from '@vuelidate/core'
 import { requiredIf } from '@vuelidate/validators'
 
 import type { Contato } from 'src/types/contato'
-import type { ContatoFormExpose } from './index'
+import type { ContatoFormExpose, ContatoFormProps } from './index'
 import type { GenericInputEmailExpose } from 'src/components/generic/input/email'
 import type { PessoaSelectExpose } from 'src/components/pessoa/select'
 
@@ -84,6 +92,10 @@ import Email from 'src/components/generic/input/email/Index.vue'
 import PessoaSelect from 'src/components/pessoa/select/Index.vue'
 import UsuarioSelect from 'src/components/usuario/select/Index.vue'
 import Foto from 'src/components/generic/foto/Index.vue'
+
+withDefaults(defineProps<ContatoFormProps>(), {
+  editing: false,
+})
 
 const modelValue = defineModel<Contato>()
 
