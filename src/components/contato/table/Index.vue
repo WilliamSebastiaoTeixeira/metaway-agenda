@@ -54,6 +54,7 @@
             flat
             color="blue-8"
             icon="las la-edit"
+            :disable="props.row.privado"
             @click="emit('editar', props.row)"
           />
         </q-td>
@@ -101,6 +102,7 @@
                     flat
                     color="blue-8"
                     icon="las la-edit"
+                    :disable="props.row.privado"
                     @click="emit('editar', props.row)"
                   />
                   <q-chip
