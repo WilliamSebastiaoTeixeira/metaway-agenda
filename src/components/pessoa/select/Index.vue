@@ -7,7 +7,7 @@
     option-label="nome"
     use-input
     input-debounce="500"
-    label="Pesssoa"
+    label="Pessoa"
     clearable
     :options="options"
     :rules="[() => !v$.pessoa.required.$invalid || 'Selecione uma pessoa']"
