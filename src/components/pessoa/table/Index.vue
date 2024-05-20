@@ -63,21 +63,20 @@
           <q-card>
             <q-list dense>
               <q-item v-for="col in props.cols" :key="col.name">
-                <div
-                  v-if="col.name === 'foto' && !!props.row.foto"
-                  class="row justify-center items-center full-width"
-                >
-                  <Foto
-                    :id="props.row.id"
-                    :foto="props.row.foto"
-                    style="width: 150px"
-                  />
-                </div>
                 <q-item-section>
                   <q-item-label> {{ col.label }}</q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                  <div v-if="col.name === 'foto'"></div>
+                  <div
+                    v-if="col.name === 'foto' && !!props.row.foto"
+                    class="row justify-center items-center full-width q-mt-sm"
+                  >
+                    <Foto
+                      :id="props.row.id"
+                      :foto="props.row.foto"
+                      style="width: 150px"
+                    />
+                  </div>
                   <q-btn
                     v-else-if="col.name === 'editar'"
                     unelevated

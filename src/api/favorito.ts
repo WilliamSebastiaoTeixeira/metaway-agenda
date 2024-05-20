@@ -21,9 +21,9 @@ export default class FavoritoApi {
   }
 
   remover = {
-    delete: async function (contatoId: string) {
+    delete: async function (contatoId: number) {
       const { data } = await api.delete<FavoritoRemoverResponse>(
-        `/api/favorito/remover/${contatoId}`,
+        `favorito/remover/${contatoId}`,
       )
       return data
     },
