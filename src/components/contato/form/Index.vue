@@ -17,8 +17,6 @@
       required
     />
 
-    <UsuarioSelect v-model="modelValue.usuario" outlined dense />
-
     <q-separator />
 
     <q-toggle
@@ -90,7 +88,6 @@ import { TipoContatoEnum } from 'src/types/enum/tipoContato'
 
 import Email from 'src/components/generic/input/email/Index.vue'
 import PessoaSelect from 'src/components/pessoa/select/Index.vue'
-import UsuarioSelect from 'src/components/usuario/select/Index.vue'
 import Foto from 'src/components/generic/foto/Index.vue'
 
 withDefaults(defineProps<ContatoFormProps>(), {

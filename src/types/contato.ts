@@ -10,5 +10,5 @@ export interface Contato {
   tag: string
   telefone: string
   tipoContato: TipoContatoEnum
-  usuario: Usuario | null
+  usuario: Partial<Usuario>
 }

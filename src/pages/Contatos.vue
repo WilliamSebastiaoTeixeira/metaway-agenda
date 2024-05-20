@@ -30,6 +30,7 @@ import { useQuasar, Notify } from 'quasar'
 import { debounce } from 'lodash'
 
 import api from 'src/api'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
 import type { Contato } from 'src/types/contato'
 import type { ContatoPesquisarRequest } from 'src/api/contato'
@@ -38,6 +39,7 @@ import Table from 'src/components/contato/table/Index.vue'
 import Dialog from 'src/components/contato/dialog/Index.vue'
 
 const $q = useQuasar()
+const auth = useAuthorizationStore()
 
 const contatos = ref<Contato[]>()
 const loading = ref(false)
@@ -94,7 +96,9 @@ async function load() {
   try {
     loading.value = true
     const data = await api.contato.pesquisar.post(filter)
-    contatos.value = data
+    contatos.value = data.filter((contato) => {
+      return contato.usuario?.id === auth.usuario?.id
+    })
   } finally {
     loading.value = false
   }

@@ -56,6 +56,7 @@ import { storeToRefs } from 'pinia'
 import { cloneDeep } from 'lodash'
 
 import api from 'src/api'
+import { useAuthorizationStore } from 'src/stores/authorization'
 
 import type { Contato } from 'src/types/contato'
 import type { ContatoSalvarRequest } from 'src/api/contato'
@@ -72,6 +73,7 @@ const props = defineProps<Props>()
 defineEmits(useDialogPluginComponent.emits)
 const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent()
 
+const auth = useAuthorizationStore()
 const generalStore = useGeneralStore()
 const { mobileOrSmallWidth } = storeToRefs(generalStore)
 
@@ -86,7 +88,7 @@ const contatoForm: Contato = reactive({
   tag: '',
   telefone: '',
   tipoContato: TipoContatoEnum.TELEFONE,
-  usuario: null,
+  usuario: { id: auth.usuario?.id },
 })
 
 const isEditing = computed(() => !!props.contato)
