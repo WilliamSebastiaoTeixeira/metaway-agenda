@@ -145,19 +145,13 @@ async function save() {
       await api.foto.upload.post(data.object.id, file.value)
     }
 
-    if (isEditing.value) {
-      Notify.create({
-        message: 'Pessoa atualizada com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    } else {
-      Notify.create({
-        message: 'Pessoa criada com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    }
+    Notify.create({
+      message: isEditing.value
+        ? 'Pessoa atualizada com sucesso'
+        : 'Pessoa criada com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    })
   } finally {
     loading.value = false
     onDialogOK()

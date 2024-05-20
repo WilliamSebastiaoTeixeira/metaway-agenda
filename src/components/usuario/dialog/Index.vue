@@ -188,19 +188,13 @@ async function save() {
 
     await api.usuario.salvar.post(salvarResquest)
 
-    if (isEditing.value) {
-      Notify.create({
-        message: 'Usuario atualizado com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    } else {
-      Notify.create({
-        message: 'Usuario criado com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    }
+    Notify.create({
+      message: isEditing.value
+        ? 'Usuario atualizado com sucesso'
+        : 'Usuario criado com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    })
   } finally {
     loading.value = false
     onDialogOK()

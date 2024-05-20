@@ -46,12 +46,12 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, computed, reactive } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
+import { useDialogPluginComponent, Notify } from 'quasar'
 import { useGeneralStore } from 'src/stores/general'
 import { storeToRefs } from 'pinia'
 import { cloneDeep } from 'lodash'
 
-//import api from 'src/api'
+import api from 'src/api'
 
 import type { Contato } from 'src/types/contato'
 import type { ContatoSalvarRequest } from 'src/api/contato'
@@ -101,30 +101,15 @@ async function save() {
       delete salvarResquest.id
     }
 
-    console.log(salvarResquest)
+    await api.contato.salvar.post(salvarResquest)
 
-    /*
-
-    const data = await api.pessoa.salvar.post(salvarResquest)
-
-    if (file.value) {
-      await api.foto.upload.post(data.object.id, file.value)
-    }
-
-    if (isEditing.value) {
-      Notify.create({
-        message: 'Pessoa atualizada com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    } else {
-      Notify.create({
-        message: 'Pessoa criada com sucesso',
-        position: 'bottom',
-        type: 'positive',
-      })
-    }
-    */
+    Notify.create({
+      message: isEditing.value
+        ? 'Contato atualizado com sucesso'
+        : 'Contato criado com sucesso',
+      position: 'bottom',
+      type: 'positive',
+    })
   } finally {
     loading.value = false
     onDialogOK()
