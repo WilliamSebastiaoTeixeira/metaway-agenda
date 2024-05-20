@@ -5,7 +5,7 @@
     </div>
 
     <div class="row justify-between q-mb-md">
-      <q-input v-model="filter.termo" label="Termo" outlined dense />
+      <q-input v-model="filter.termo" label="Pesquisar" outlined dense />
 
       <q-btn
         color="secondary"
