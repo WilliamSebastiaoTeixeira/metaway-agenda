@@ -1,19 +1,9 @@
 <template>
   <div v-if="modelValue" class="column">
-    <div class="row justify-around items-center q-mb-md">
-      <Foto
-        v-if="modelValue.pessoa?.foto"
-        :id="modelValue.pessoa.id"
-        style="height: 150px; width: 150px"
-        :foto="modelValue.pessoa.foto"
-      />
-    </div>
-
     <PessoaSelect
       ref="pessoaSelectRef"
       v-model="modelValue.pessoa"
       outlined
-      dense
       required
     />
 
@@ -88,7 +78,6 @@ import { TipoContatoEnum } from 'src/types/enum/tipoContato'
 
 import Email from 'src/components/generic/input/email/Index.vue'
 import PessoaSelect from 'src/components/pessoa/select/Index.vue'
-import Foto from 'src/components/generic/foto/Index.vue'
 
 withDefaults(defineProps<ContatoFormProps>(), {
   editing: false,

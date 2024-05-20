@@ -5,7 +5,7 @@
     ratio="1"
     fit="scale-down"
     width="100%"
-    style="width: 100%"
+    style="width: 100%; border-radius: 4px; border: 1px solid #f4f4f4"
   />
 </template>
 <script setup lang="ts">
