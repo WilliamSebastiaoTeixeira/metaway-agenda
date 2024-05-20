@@ -18,7 +18,7 @@ import { requiredIf, email } from '@vuelidate/validators'
 
 import type { GenericInputEmailExpose, GenericInputEmailProps } from './index'
 
-const modelValue = defineModel<string>()
+const modelValue = defineModel<string | null>()
 
 const props = withDefaults(defineProps<GenericInputEmailProps>(), {
   required: false,

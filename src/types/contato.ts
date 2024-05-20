@@ -3,7 +3,7 @@ import { Pessoa } from './pessoa'
 import { Usuario } from './usuario'
 
 export interface Contato {
-  email: string
+  email: string | null
   id: number
   pessoa: Pessoa | null
   privado: boolean
