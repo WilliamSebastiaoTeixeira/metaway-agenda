@@ -30,6 +30,22 @@
         </q-td>
       </template>
 
+      <template #body-cell-privado="props">
+        <q-td :props="props">
+          <q-chip
+            :label="props.row.privado ? 'Privado' : 'Público'"
+            :color="props.row.privado ? 'negative' : 'positive'"
+            class="text-white"
+          />
+        </q-td>
+      </template>
+
+      <template #body-cell-tag="props">
+        <q-td :props="props">
+          <q-chip :label="props.row.tag" color="primary" class="text-white" />
+        </q-td>
+      </template>
+
       <template #body-cell-editar="props">
         <q-td :props="props">
           <q-btn
@@ -86,6 +102,18 @@
                     color="blue-8"
                     icon="las la-edit"
                     @click="emit('editar', props.row)"
+                  />
+                  <q-chip
+                    v-else-if="col.name === 'privado'"
+                    :label="props.row.privado ? 'Privado' : 'Público'"
+                    :color="props.row.privado ? 'negative' : 'positive'"
+                    class="text-white"
+                  />
+                  <q-chip
+                    v-else-if="col.name === 'tag'"
+                    :label="props.row.tag"
+                    color="primary"
+                    class="text-white"
                   />
                   <q-btn
                     v-else-if="col.name === 'remover'"
@@ -161,7 +189,7 @@ const { mobileOrSmallWidth } = storeToRefs(generalStore)
 const columns: QTableProps['columns'] = [
   {
     name: 'foto',
-    label: '',
+    label: 'Foto',
     align: 'left',
     field: (data: Contato) => data.pessoa?.foto,
   },
@@ -179,13 +207,13 @@ const columns: QTableProps['columns'] = [
   },
   {
     name: 'telefone',
-    label: 'Telefone',
+    label: 'Telefone | Celular',
     align: 'left',
     field: (data: Contato) => data.telefone,
   },
   {
     name: 'privado',
-    label: 'Privado',
+    label: 'Privado | Público',
     align: 'left',
     field: (data: Contato) => data.privado,
   },

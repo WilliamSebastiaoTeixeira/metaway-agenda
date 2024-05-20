@@ -20,14 +20,7 @@
         <q-separator />
 
         <q-card class="q-mt-md q-px-md q-pb-md" flat>
-          <div class="row justify-around items-center q-mb-md">
-            <Foto
-              v-if="contatoForm?.pessoa?.foto"
-              :id="contatoForm.pessoa.id"
-              style="height: 150px; width: 150px"
-              :foto="contatoForm.pessoa.foto"
-            />
-          </div>
+          <ContatoForm ref="contatoFormRef" v-model="contatoForm" />
         </q-card>
       </div>
 
@@ -64,7 +57,7 @@ import type { Contato } from 'src/types/contato'
 import type { ContatoSalvarRequest } from 'src/api/contato'
 import { TipoContatoEnum } from 'src/types/enum/tipoContato'
 
-import Foto from 'src/components/generic/foto/Index.vue'
+import ContatoForm from 'src/components/contato/form/Index.vue'
 
 interface Props {
   contato?: Contato
@@ -78,6 +71,7 @@ const { dialogRef, onDialogOK, onDialogHide } = useDialogPluginComponent()
 const generalStore = useGeneralStore()
 const { mobileOrSmallWidth } = storeToRefs(generalStore)
 
+const contatoFormRef = ref()
 const loading = ref(false)
 
 const contatoForm: Contato = reactive({
@@ -94,7 +88,7 @@ const contatoForm: Contato = reactive({
 const isEditing = computed(() => !!props.contato)
 
 const valid = computed(() => {
-  return true
+  return !!contatoFormRef.value?.valid
 })
 
 async function save() {

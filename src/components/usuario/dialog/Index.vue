@@ -30,11 +30,11 @@
               emit-value
               multiple
               dense
-              label="Tipos"
+              label="Tipos de usuário"
               :options="optionsTipos"
               :rules="[
                 () =>
-                  tiposValid || 'É necessrário selecionar o papel do usuario',
+                  tiposValid || 'É necessário selecionar o papel do usuario',
               ]"
             />
           </div>

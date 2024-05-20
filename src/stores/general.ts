@@ -13,7 +13,7 @@ export const useGeneralStore = defineStore('generalStore', () => {
   const $q = useQuasar()
 
   const defaultData = {
-    fullWidth: false,
+    fullWidth: true,
     flexibleDrawer: false,
   }
 

@@ -161,7 +161,7 @@ const { mobileOrSmallWidth } = storeToRefs(generalStore)
 const columns: QTableProps['columns'] = [
   {
     name: 'foto',
-    label: '',
+    label: 'Foto',
     align: 'left',
     field: (data: Pessoa) => data.foto,
   },

@@ -7,7 +7,13 @@
     <div class="row justify-between q-mb-md">
       <q-input v-model="filter.termo" label="Termo" outlined dense />
 
-      <q-btn color="secondary" unelevated no-caps label="Novo" />
+      <q-btn
+        color="secondary"
+        unelevated
+        no-caps
+        label="Novo"
+        @click="showDialog(undefined)"
+      />
     </div>
 
     <Table
